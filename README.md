@@ -11,25 +11,32 @@ This is a Vagrant setup for creating a TeamCity server and build agents. It uses
 
 The JDK, Apache Tomcat, TeamCity WAR file and MySQL JDBC driver are downloaded by the scripts and saved to the `downloads` directory.
 
-By default Ubuntu 12.04 VMs are used for the server and agents, except agent03 which is configured to use a
-CentOS 6.4 VM. The nodes array in the `Vagrantfile` can be modified to change the OS used by any of the VMs. Both the
-server and agents can be run on either Ubuntu 12.04 or CentOS 6.4.
+By default Ubuntu 16.04 VMs are used for the server and agents.
 
 ## Starting the TeamCity server
 
 To create the TeamCity server VM and start the server, run:
 
-    $ vagrant up teamcity
+    $ vagrant up server
 
 (Note: the first run may take up to 10 minutes).
 
-To create and start a TeamCity build agent, run the following command after replacing `vm-name` with `agent01`, `agent02` or `agent03`.
+To create and start a TeamCity build agent, run `vagrant up` with one of the agent names;
 
-    $ vagrant up [vm-name]
+    $ vagrant up montagu-ci-agent-01
+    $ vagrant up montagu-ci-agent-02
+    $ vagrant up montagu-ci-agent-03
 
 ## Accessing the TeamCity server
 
-Once the server is started it can be accessed at the following URL: [http://192.168.80.10:8111/teamcity](http://192.168.80.10:8111/teamcity).
+Once the server it started, it can be accessed at http://fi--didelx05:8111/teamcity (which is forwarded from the server VM).
+
+Once one or more agents have been started they can be authorised from the Agents page in the web UI, http://fi--didelx05:8111/teamcity/agents.html.
+
 See the [TeamCity Administrator's Guide](https://confluence.jetbrains.com/display/TCD9/Administrator%27s+Guide) for configuring the server.
 
-Once one or more agents have been started they can be authorised from the Agents page in the web UI, [http://192.168.80.10:8111/teamcity/agents.html](http://192.168.80.10:8111/teamcity/agents.html).
+## VIMC notes
+
+The server provisioning takes about 10-15 minutes including downloading.  There will be a couple of minutes lag between the VM starting and the landing page being available.  The maintenance page will also about 5 minutes to get through, after which there is a licence agreement to deal with.
+
+Then start an agent.  It'll take about 10 minutes to come up, too and should immediately appear in [the agents page](http://fi--didelx05:8111/teamcity/agents.html) under "Unauthorized".  Clicking the tab takes you through to the [page to authorise the agent](http://fi--didelx05:8111/teamcity/agents.html?tab=unauthorizedAgents) and will likely be saying "Agent has unregistered (will upgrade)".  This seems to take 10 minutes or so to complete.
