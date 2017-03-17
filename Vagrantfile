@@ -2,6 +2,10 @@
 # TeamCity Server and Agent VMs configured using shell scripts
 #
 
+# Older versions of vagrant can't start the ubuntu bentobox with
+# private networking
+Vagrant.require_version ">= 1.8.2"
+
 domain = 'localdomain'
 
 nodes = [
