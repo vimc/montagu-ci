@@ -63,9 +63,6 @@ CREATE DATABASE $TEAMCITY_DB_NAME DEFAULT CHARACTER SET utf8;
 
 CREATE USER '$TEAMCITY_DB_USER'@'%' IDENTIFIED BY '$TEAMCITY_DB_PASS';
 GRANT ALL ON $TEAMCITY_DB_NAME.* TO '$TEAMCITY_DB_USER'@'%';
-
-DROP USER ''@'localhost';
-DROP USER ''@'teamcity.localdomain';
 EOF
 # flush privileges;
     mysql -u root -p$MYSQL_PASSWORD < /tmp/database-setup.sql
