@@ -22,7 +22,6 @@ Vagrant.configure(2) do |config|
   config.vm.define "server" do |server_config|
     server_config.vm.provider :virtualbox do | vbox |
       vbox.gui = false
-      vbox.customize ['modifyvm', :id, '--name', server[:hostname]]
       vbox.customize ['modifyvm', :id, '--memory', server[:ram]]
     end
     server_config.vm.hostname = server[:hostname] + '.' + domain
@@ -38,12 +37,11 @@ Vagrant.configure(2) do |config|
     config.vm.define agent[:hostname] do |agent_config|
       agent_config.vm.provider :virtualbox do | vbox |
         vbox.gui = false
-        vbox.customize ['modifyvm', :id, '--name', agent[:hostname]]
         vbox.customize ['modifyvm', :id, '--memory', agent[:ram]]
       end
       agent_config.vm.hostname = agent[:hostname] + '.' + domain
       agent_config.vm.network :private_network, ip: agent[:ip]
-      node_config.vm.provision :shell do |shell|
+      agent_config.vm.provision :shell do |shell|
         shell.path = 'scripts/setup-agent.sh'
       end
     end
