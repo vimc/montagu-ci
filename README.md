@@ -2,6 +2,12 @@
 
 This is a Vagrant setup for creating a TeamCity server and build agents. It uses a shell script for provisioning.
 
+This is based off of [this repo](https://github.com/rodm/teamcity-vagrant) but is going to adapt over time to suite our needs for montagu.
+
+## Issues
+
+Use the `"CI system"` component in [YouTrack](https://vimc.myjetbrains.com/youtrack/issues?q=Component:%20%7BCI%20system%7D)
+
 ## Requirements
 
 1. Install in the host machine:
