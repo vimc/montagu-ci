@@ -47,8 +47,8 @@ if [ -f /etc/redhat-release ]; then
     /sbin/service mysqld start
     /usr/bin/mysqladmin -u root password "$MYSQL_PASSWORD"
 else
-    echo mysql-server-5.5 mysql-server/root_password password $MYSQL_PASSWORD | debconf-set-selections
-    echo mysql-server-5.5 mysql-server/root_password_again password $MYSQL_PASSWORD | debconf-set-selections
+    echo mysql-server mysql-server/root_password password $MYSQL_PASSWORD | debconf-set-selections
+    echo mysql-server mysql-server/root_password_again password $MYSQL_PASSWORD | debconf-set-selections
     apt-get install -y -q mysql-server
     apt-get clean
 fi
