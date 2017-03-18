@@ -14,15 +14,40 @@ agents = [
   { :hostname => 'montagu-ci-agent-03', :ip => '192.168.80.13', :ram => '2048' }
 ]
 
+# This is the thing that will significantly change size over time, so
+# let's pull it out into its own thing for now
+server_artifacts_disk = './server_artifacts_disk.vdi'
+server_artifacts_disk_size = 1 # in GB
+
 Vagrant.configure(2) do |config|
   # Common bits:
   config.vm.box = box
 
+  # All nodes need Oracle Java 8 on them
+  config.vm.provision :shell do |shell|
+    shell.path = 'scripts/install-java.sh'
+  end
+
   # Team city server:
-  config.vm.define "server" do |server_config|
-    server_config.vm.provider :virtualbox do | vbox |
+  config.vm.define server[:hostname] do |server_config|
+    server_config.vm.provider :virtualbox do |vbox|
       vbox.gui = false
-      vbox.customize ['modifyvm', :id, '--memory', server[:ram]]
+      unless File.exist?(server_artifacts_disk)
+        vbox.customize ['createhd', '--filename', server_artifacts_disk,
+                        '--variant', 'Fixed',
+                        '--size', server_artifacts_disk_size * 1024]
+      end
+      # Then do this:
+      #
+      # http://stackoverflow.com/a/27515105
+      # http://zacklalanne.me/using-vagrant-to-virtualize-multiple-hard-drives/
+      #
+      # To mount directory at
+      # /opt/teamcity-server/data
+      vbox.memory = server[:ram]
+      vbox.customize ['storageattach', :id, '--storagectl', 'SATA Controller',
+                      '--port', 1, '--device', 0, '--type', 'hdd',
+                      '--medium', server_artifacts_disk]
     end
     server_config.vm.hostname = server[:hostname] + '.' + domain
     server_config.vm.network :private_network, ip: server[:ip]
