@@ -7,9 +7,9 @@
 # Database: MySQL
 
 driverName=com.mysql.jdbc.Driver
-connectionUrl=jdbc:mysql://<hostname>:3306/<dbname>
-connectionProperties.user=<username>
-connectionProperties.password=<password>
+connectionUrl=jdbc:mysql://{{TEAMCITY_DB_HOST}}:3306/{{TEAMCITY_DB_NAME}}
+connectionProperties.user={{TEAMCITY_DB_USER}}
+connectionProperties.password={{TEAMCITY_DB_PASS}}
 
 # This option, when it is set to "true",
 # allows to reduce memory usage on large query results.
