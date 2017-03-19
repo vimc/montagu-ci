@@ -19,4 +19,5 @@ if [ ! -d $JAVA_HOME ]; then
     apt-get install -y oracle-java8-installer
 
     rsync -av $JAVA_CACHE_SYSTEM $JAVA_CACHE_VAGRANT
+    rm -r $JAVA_CACHE_SYSTEM
 fi
