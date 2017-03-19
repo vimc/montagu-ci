@@ -17,7 +17,7 @@ agents = [
 # This is the thing that will significantly change size over time, so
 # let's pull it out into its own thing for now
 server_artifacts_disk = './server_artifacts_disk.vdi'
-server_artifacts_disk_size = 1 # in GB
+server_artifacts_disk_size = 10 # in GB
 
 Vagrant.configure(2) do |config|
   # Common bits:
@@ -53,7 +53,7 @@ Vagrant.configure(2) do |config|
     server_config.vm.network :private_network, ip: server[:ip]
     server_config.vm.network "forwarded_port", guest: 8111, host: 8111
     server_config.vm.provision :shell do |shell|
-      shell.path = 'scripts/setup-server.sh'
+      shell.path = 'scripts/setup-server-disk.sh'
     end
   end
 
