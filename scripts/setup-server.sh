@@ -1,7 +1,6 @@
 #!/bin/sh
 
 set -x
-exit 0
 
 MYSQL_PASSWORD=admin
 
@@ -9,23 +8,22 @@ TEAMCITY_DB_HOST=localhost
 TEAMCITY_DB_NAME=teamcity
 TEAMCITY_DB_USER=teamcity
 TEAMCITY_DB_PASS=teamcity
+
 TEAMCITY_USER=teamcity
 TEAMCITY_GROUP=teamcity
 
-MYSQL_JDBC_VERS=5.1.34
-MYSQL_JDBC_JAR=mysql-connector-java-${MYSQL_JDBC_VERS}.jar
-MYSQL_JDBC_URL=http://search.maven.org/remotecontent?filepath=mysql/mysql-connector-java/${MYSQL_JDBC_VERS}/${MYSQL_JDBC_JAR}
+MYSQL_JDBC_VERSION=5.1.41
+MYSQL_JDBC_JAR=mysql-connector-java-${MYSQL_JDBC_VERSION}.jar
+MYSQL_JDBC_URL=http://search.maven.org/remotecontent?filepath=mysql/mysql-connector-java/${MYSQL_JDBC_VERSION}/${MYSQL_JDBC_JAR}
 
-# NOTE: this is based around the name of the top level directory in
-# the TGZ; if it ever changes this will fail.
 TEAMCITY_VERSION=10.0.5
-TEAMCITY_DIR=/opt/TeamCity
 TEAMCITY_TGZ=TeamCity-${TEAMCITY_VERSION}.tar.gz
 TEAMCITY_URL=http://download.jetbrains.com/teamcity/$TEAMCITY_TGZ
+TEAMCITY_DIR=/opt/TeamCity
+TEAMCITY_DATA_DIR=${TEAMCITY_DIR}/data
 
 # Install various packages required to run TeamCity
 apt-get update
-apt-get install -y unzip
 
 # Configure MySQL for TeamCity
 # https://confluence.jetbrains.com/display/TCD9/How+To...#HowTo...-ConfigureNewlyInstalledMySQLServer
@@ -40,12 +38,22 @@ apt-get install -y mysql-server
 ## Finished with apt things, so we can clean up a little
 apt-get clean
 
+## Thinking that putting the mysql database on the data disk makes
+## sense; amazingly it is 2GB on a fresh install!  I think these are
+## indices generated using the InnoDB driver
+systemctl stop mysql
+mv /var/lib/mysql /mnt/data/mysql
+ln -s /mnt/data/mysql /var/lib/mysql
+
+echo "alias /var/lib/mysql/ -> /mnt/data/mysql," >> /etc/apparmor.d/tunables/alias
+sudo systemctl restart apparmor
+systemctl start mysql
+
 # Create database
 mysql -u root -p$MYSQL_PASSWORD -e 'show databases;'| grep teamcity > /dev/null
 if [ "$?" = "1" ]; then
     cat > /tmp/database-setup.sql <<EOF
 CREATE DATABASE $TEAMCITY_DB_NAME DEFAULT CHARACTER SET utf8;
-
 CREATE USER '$TEAMCITY_DB_USER'@'%' IDENTIFIED BY '$TEAMCITY_DB_PASS';
 GRANT ALL ON $TEAMCITY_DB_NAME.* TO '$TEAMCITY_DB_USER'@'%';
 EOF
@@ -59,31 +67,39 @@ fi
 /usr/sbin/useradd -c $TEAMCITY_USER -r -s /bin/bash -d $TEAMCITY_DIR -g $TEAMCITY_GROUP $TEAMCITY_USER 2>/dev/null
 
 # Download and install TeamCity
-if [ ! -f $TEAMCITY_DIR ]; then
+if [ ! -d $TEAMCITY_DIR ]; then
     if [ ! -f /vagrant/downloads/$TEAMCITY_TGZ ]; then
         wget --no-proxy $TEAMCITY_URL -P /vagrant/downloads
     fi
     tar -zxvf /vagrant/downloads/$TEAMCITY_TGZ -C /opt
-    cp /vagrant/downloads/$TEAMCITY_TGZ $TEAMCITY_DIR
 fi
 
+# Set up the data directory
+if [ ! -f $TEAMCITY_DIR/conf/teamcity-startup.properties ]; then
+    echo "teamcity.data.path=$TEAMCITY_DATA_DIR" > \
+         $TEAMCITY_DIR/conf/teamcity-startup.properties
+fi
+
+mkdir -p /mnt/data/teamcity
+ln -s /mnt/data/teamcity $TEAMCITY_DATA_DIR
+
 # Install MySQL JDBC driver
-if [ ! -d $TEAMCITY_DIR/shared/lib ]; then
+if [ ! -d $TEAMCITY_DIR/shared/lib/jdbc ]; then
     if [ ! -f /vagrant/downloads/$MYSQL_JDBC_JAR ]; then
         wget --no-proxy $MYSQL_JDBC_URL -O /vagrant/downloads/$MYSQL_JDBC_JAR
     fi
-    mkdir -p $TEAMCITY_DIR/data/lib/jdbc
-    cp /vagrant/downloads/$MYSQL_JDBC_JAR $TEAMCITY_DIR/data/lib/jdbc
+    mkdir -p $TEAMCITY_DATA_DIR/lib/jdbc
+    cp /vagrant/downloads/$MYSQL_JDBC_JAR $TEAMCITY_DATA_DIR/lib/jdbc
 fi
 
 # Configure teamcity to use the mysql database.  This is currently
 # done with mustache https://github.com/tests-always-included/mo
-mkdir -p $TEAMCITY_DIR/data/config
+mkdir -p $TEAMCITY_DATA_DIR/config
 . /vagrant/scripts/mo
 mo /vagrant/files/server/database.mysql.properties.dist > \
-   $TEAMCITY_DIR/data/config/database.properties
+   $TEAMCITY_DATA_DIR/config/database.properties
 
-chown -R $TEAMCITY_USER:$TEAMCITY_GROUP $TEAMCITY_DIR
+chown -R $TEAMCITY_USER:$TEAMCITY_GROUP $TEAMCITY_DIR /mnt/data/teamcity
 
 # Install init script to start TeamCity on server boot
 cp /vagrant/files/server/teamcity-server /etc/init.d

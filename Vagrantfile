@@ -55,6 +55,9 @@ Vagrant.configure(2) do |config|
     server_config.vm.provision :shell do |shell|
       shell.path = 'scripts/setup-server-disk.sh'
     end
+    server_config.vm.provision :shell do |shell|
+      shell.path = 'scripts/setup-server.sh'
+    end
   end
 
   # The agents
