@@ -19,7 +19,7 @@ backup =
 # This is the thing that will significantly change size over time, so
 # let's pull it out into its own thing for now
 server_artifacts_disk = 'server_artifacts_disk.vdi'
-server_artifacts_disk_size = 10 # in GB
+server_artifacts_disk_size = 30 # in GB
 
 Vagrant.configure(2) do |config|
   # Common bits:
