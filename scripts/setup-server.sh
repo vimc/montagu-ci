@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 set -x
 
@@ -16,6 +16,10 @@ MYSQL_JDBC_VERSION=5.1.41
 MYSQL_JDBC_JAR=mysql-connector-java-${MYSQL_JDBC_VERSION}.jar
 MYSQL_JDBC_URL=http://search.maven.org/remotecontent?filepath=mysql/mysql-connector-java/${MYSQL_JDBC_VERSION}/${MYSQL_JDBC_JAR}
 
+# NOTE: The TEAMCITY_DIR variable _must_ end in TeamCity unless some
+# faffage is done because that's the top level name in the tgz.  It's
+# totally possible to rename this but it adds fragility for minimal
+# gain.
 TEAMCITY_VERSION=10.0.5
 TEAMCITY_TGZ=TeamCity-${TEAMCITY_VERSION}.tar.gz
 TEAMCITY_URL=http://download.jetbrains.com/teamcity/$TEAMCITY_TGZ
@@ -57,7 +61,6 @@ CREATE DATABASE $TEAMCITY_DB_NAME DEFAULT CHARACTER SET utf8;
 CREATE USER '$TEAMCITY_DB_USER'@'%' IDENTIFIED BY '$TEAMCITY_DB_PASS';
 GRANT ALL ON $TEAMCITY_DB_NAME.* TO '$TEAMCITY_DB_USER'@'%';
 EOF
-# flush privileges;
     mysql -u root -p$MYSQL_PASSWORD < /tmp/database-setup.sql
     rm /tmp/database-setup.sql
 fi
@@ -69,8 +72,9 @@ fi
 # Download and install TeamCity
 if [ ! -d $TEAMCITY_DIR ]; then
     if [ ! -f /vagrant/downloads/$TEAMCITY_TGZ ]; then
-        wget --no-proxy $TEAMCITY_URL -P /vagrant/downloads
+        wget --progress=dot:giga --no-proxy $TEAMCITY_URL -P /vagrant/downloads
     fi
+    # NOTE: see the comment about the trailing directory of $TEAMCITY_DIR
     tar -zxvf /vagrant/downloads/$TEAMCITY_TGZ -C /opt
 fi
 
@@ -95,9 +99,11 @@ fi
 # Configure teamcity to use the mysql database.  This is currently
 # done with mustache https://github.com/tests-always-included/mo
 mkdir -p $TEAMCITY_DATA_DIR/config
+set +x
 . /vagrant/scripts/mo
 mo /vagrant/files/server/database.mysql.properties.dist > \
    $TEAMCITY_DATA_DIR/config/database.properties
+set -x
 
 chown -R $TEAMCITY_USER:$TEAMCITY_GROUP $TEAMCITY_DIR /mnt/data/teamcity
 
