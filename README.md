@@ -47,6 +47,12 @@ Once one or more agents have been started they can be authorised from the Agents
 
 See the [TeamCity Administrator's Guide](https://confluence.jetbrains.com/display/TCD9/Administrator%27s+Guide) for configuring the server.
 
+## Backups
+
+The CI server will backup every day into `/opt/TeamCity/data/backup`
+
+From the host, running `./scripts/sync-backups.sh` will syncronise these backups to the host, in the directory `backup`, and will set a link to the most recent one in `restore`.  This will need some work to be cron-able because the working directory will matter.
+
 ## VIMC notes
 
 Ubuntu 16.04 VMs are used for the server and agents.

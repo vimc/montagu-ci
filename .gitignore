@@ -1,3 +1,6 @@
 .vagrant/
 downloads/
 *.vdi
+backup
+restore
+.ssh

@@ -110,4 +110,13 @@ chown -R $TEAMCITY_USER:$TEAMCITY_GROUP $TEAMCITY_DIR /mnt/data/teamcity
 # Install init script to start TeamCity on server boot
 cp /vagrant/files/server/teamcity-server /etc/init.d
 update-rc.d teamcity-server defaults
+
 /etc/init.d/teamcity-server start
+
+## TODO: add a weekly or monthly file to thin/delete backups
+set +x
+. /vagrant/scripts/mo
+mo /vagrant/files/server/teamcity-backup > \
+   /etc/cron.daily/teamcity-backup
+set -x
+chmod +x /etc/cron.daily/teamcity-backup

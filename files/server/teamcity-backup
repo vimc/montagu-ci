@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# This assumes that it is running as superuser, so chowns the files as
+# teamcity later.
+
+TEAMCITY_DIR={{TEAMCITY_DIR}}
+TEAMCITY_DATA_DIR={{TEAMCITY_DATA_DIR}}
+TEAMCITY_USER={{TEAMCITY_USER}}
+TEAMCITY_GROUP={{TEAMCITY_GROUP}}
+
+# I don't know why JAVA HOME is not coming through appropriately but it's
+# something to think about
+export JAVA_HOME=/usr/lib/jvm/java-8-oracle
+$TEAMCITY_DIR/bin/maintainDB.sh backup -C -D -L -P -U -A $TEAMCITY_DATA_DIR
+chown -R $TEAMCITY_USER:$TEAMCITY_GROUP $TEAMCITY_DATA_DIR/backup
