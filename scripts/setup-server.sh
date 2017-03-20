@@ -25,6 +25,10 @@ TEAMCITY_VERSION=10.0.5
 TEAMCITY_TGZ=TeamCity-${TEAMCITY_VERSION}.tar.gz
 TEAMCITY_URL=http://download.jetbrains.com/teamcity/$TEAMCITY_TGZ
 
+SLACK_NOTIFIER_VERSION=1.4.6
+SLACK_NOTIFIER_ZIP=tcSlackNotificationsPlugin.zip
+SLACK_NOTIFIER_URL=https://github.com/PeteGoo/tcSlackBuildNotifier/releases/download/v${SLACK_NOTIFIER_VERSION}/${SLACK_NOTIFIER_ZIP}
+
 MYSQL_JDBC_VERSION=5.1.41
 MYSQL_JDBC_JAR=mysql-connector-java-${MYSQL_JDBC_VERSION}.jar
 MYSQL_JDBC_URL=http://search.maven.org/remotecontent?filepath=mysql/mysql-connector-java/${MYSQL_JDBC_VERSION}/${MYSQL_JDBC_JAR}
@@ -141,6 +145,13 @@ if [ -f $TEAMCITY_BACKUP ]; then
     echo "*** restore complete"
 else
     echo "no restore"
+fi
+
+if [ ! -f $TEAMCITY_DATA_DIR/plugins/$SLACK_NOTIFIER_ZIP ]; then
+    if [ ! -f /vagrant/downloads/$SLACK_NOTIFIER_ZIP ]; then
+        wget --no-proxy $SLACK_NOTIFIER_URL -P /vagrant/downloads
+    fi
+    cp /vagrant/downloads/$SLACK_NOTIFIER_ZIP -d $TEAMCITY_DATA_DIR/plugins
 fi
 
 chown -R $TEAMCITY_USER:$TEAMCITY_GROUP $TEAMCITY_DIR /mnt/data/teamcity
