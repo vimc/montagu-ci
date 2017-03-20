@@ -53,6 +53,12 @@ The CI server will backup every day into `/opt/TeamCity/data/backup`
 
 From the host, running `./scripts/sync-backups.sh` will syncronise these backups to the host, in the directory `backup`, and will set a link to the most recent one in `restore`.  This will need some work to be cron-able because the working directory will matter.
 
+To restore the server into a *freshly created machine, during provisioning*, run
+
+    $ ln -s TeamCity_Backup.zip restore/montagu-ci-server
+    $ vagrant up montagu-ci-server
+    $ rm restore/montagu-ci-server
+
 ## VIMC notes
 
 Ubuntu 16.04 VMs are used for the server and agents.
