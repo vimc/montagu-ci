@@ -55,6 +55,15 @@ Add the apt packages required to [`files/agent/dependencies`](files/agent/depend
       vagrant provision "montagu-ci-agent-0$i"
     done
 
+## Updating packages
+
+There is a script `/vagrant/scripts/update-packages.sh'` that does this; it is not in the provisioning though because I don't know how to get parts of the Vagrantfile to run conditionally.  So for now do:
+
+    vagrant ssh <name> -- -t 'sudo /vagrant/scripts/upgrade-packages.sh'
+
+which of course needs to be done for all the running machines
+
+
 ## Backups
 
 The CI server will backup every day into `/opt/TeamCity/data/backup`
