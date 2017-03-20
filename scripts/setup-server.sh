@@ -31,6 +31,11 @@ MYSQL_JDBC_URL=http://search.maven.org/remotecontent?filepath=mysql/mysql-connec
 
 TEAMCITY_DATABASE_PROPERTIES=$TEAMCITY_DATA_DIR/config/database.properties
 
+if [ -d $TEAMCITY_DATA_DIR ]; then
+    echo "Server is already provisioned"
+    exit 0
+fi
+
 # On the backup machine, this does not exist;
 mkdir -p /mnt/data
 

@@ -1,10 +1,14 @@
 #!/bin/sh
 
-echo "Installing Java"
 set -x
 JAVA_HOME=/usr/lib/jvm/java-8-oracle
 JAVA_CACHE_VAGRANT=/vagrant/downloads/java
 JAVA_CACHE_SYSTEM=/var/cache/oracle-jdk8-installer
+
+if [ -d $JAVA_HOME ]; then
+    echo "Java is already installed"
+    exit 0
+fi
 
 if [ -d $JAVA_CACHE_VAGRANT ]; then
     rsync -av $JAVA_CACHE_VAGRANT/ `dirname $JAVA_CACHE_SYSTEM`

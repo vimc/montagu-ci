@@ -8,6 +8,11 @@ TEAMCITY_GROUP=teamcity
 TEAMCITY_SERVER_ROOT="http://teamcity:8111/"
 AGENT_NAME=`hostname -s`
 
+if [ -d $TEAMCITY_DIR ]; then
+    echo "Agent is already provisioned"
+    exit 0
+fi
+
 # Install various packages required to run a TeamCity Build Agent
 apt-get update
 apt-get install -y unzip
