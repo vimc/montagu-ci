@@ -30,6 +30,13 @@ To create and start a TeamCity build agent, run `vagrant up` with one of the age
     $ vagrant up montagu-ci-agent-02
     $ vagrant up montagu-ci-agent-03
 
+**NOTE**; the `montagu-ci-server` *must* come up and be enabled before starting agents.  This is because the agent needs to download its setup from the agent during provisioning, and register with the server during startup.  Practically this means that full restart will look like
+
+
+    $ vagrant up montagu-ci-server
+    # ... ensure that the server is up; up to ~20 minutes
+    $ vagrant up
+
 ## Accessing the TeamCity server
 
 Once the server it started, it can be accessed at http://fi--didelx05:8111 (which is forwarded from the server VM).
