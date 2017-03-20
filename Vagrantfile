@@ -29,6 +29,9 @@ Vagrant.configure(2) do |config|
   config.vm.provision :shell do |shell|
     shell.path = 'scripts/install-java.sh'
   end
+  config.vm.provision :shell do |shell|
+    shell.path = 'scripts/setup-users.sh'
+  end
 
   # Team city server:
   config.vm.define server[:hostname] do |server_config|
