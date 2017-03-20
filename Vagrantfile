@@ -89,6 +89,9 @@ Vagrant.configure(2) do |config|
       agent_config.vm.provision :shell do |shell|
         shell.path = 'scripts/setup-agent.sh'
       end
+      agent_config.vm.provision :shell do |shell|
+        shell.path = 'scripts/setup-agent-dependencies.sh'
+      end
     end
   end
 end

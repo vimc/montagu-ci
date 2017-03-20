@@ -47,6 +47,14 @@ Once one or more agents have been started they can be authorised from the Agents
 
 See the [TeamCity Administrator's Guide](https://confluence.jetbrains.com/display/TCD9/Administrator%27s+Guide) for configuring the server.
 
+## Installing dependencies on the agents
+
+Add the apt packages required to [`files/agent/dependencies`](files/agent/dependencies) and rerun `vagrant provision`
+
+    for i in 1 2 3; do
+      vagrant provision "montagu-ci-agent-0$i"
+    done
+
 ## Backups
 
 The CI server will backup every day into `/opt/TeamCity/data/backup`
