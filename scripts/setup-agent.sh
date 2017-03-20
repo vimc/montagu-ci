@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 set -x
 
@@ -26,9 +26,11 @@ wget -q --no-proxy \
 mkdir -p $TEAMCITY_DIR
 unzip -q /tmp/buildAgent.zip -d $TEAMCITY_DIR
 
+set +x
 . /vagrant/scripts/mo
 mo /vagrant/files/agent/buildAgent.dist.properties > \
    $TEAMCITY_DIR/conf/buildAgent.properties
+set -x
 
 chown -R $TEAMCITY_USER:$TEAMCITY_GROUP $TEAMCITY_DIR
 
