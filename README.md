@@ -59,6 +59,12 @@ To restore the server into a *freshly created machine, during provisioning*, run
     $ vagrant up montagu-ci-server
     $ rm restore/montagu-ci-server
 
+To test that the restore works, run
+
+    $ vagrant up montagu-ci-backup
+
+which will open a new instance of TeamCity server with the most recently backed up (and synchronised) data.  It will be available on port 8112 (it will have no agents though as they register themselves with the main host).  As with the main server, it will take 1-2 minutes for the login page to work after provisioning is complete.
+
 ## VIMC notes
 
 Ubuntu 16.04 VMs are used for the server and agents.
