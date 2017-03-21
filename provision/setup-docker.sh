@@ -15,6 +15,13 @@ else
     apt-get install -y docker-ce
 fi
 
+if getent passwd teamcity > /dev/null; then
+    if id -Gn teamcity | grep -qv "\bdocker\b"; then
+        echo "Adding teamcity to the docker group"
+        usermod -aG docker teamcity
+    fi
+fi
+
 REGISTRY_HOST=fi--didelx05.dide.ic.ac.uk:5000
 CERT_DEST=/etc/docker/certs.d/$REGISTRY_HOST
 CERT_SRC=/vagrant/files/agent/registry.crt
