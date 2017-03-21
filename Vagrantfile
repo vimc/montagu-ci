@@ -28,10 +28,10 @@ Vagrant.configure(2) do |config|
 
   # All nodes need Oracle Java 8 on them
   config.vm.provision :shell do |shell|
-    shell.path = 'scripts/install-java.sh'
+    shell.path = 'provision/install-java.sh'
   end
   config.vm.provision :shell do |shell|
-    shell.path = 'scripts/setup-users.sh'
+    shell.path = 'provision/setup-users.sh'
   end
 
   # Team city server:
@@ -52,10 +52,10 @@ Vagrant.configure(2) do |config|
     server_config.vm.network :private_network, ip: server[:ip]
     server_config.vm.network "forwarded_port", guest: 8111, host: 8111
     server_config.vm.provision :shell do |shell|
-      shell.path = 'scripts/setup-server-disk.sh'
+      shell.path = 'provision/setup-server-disk.sh'
     end
     server_config.vm.provision :shell do |shell|
-      shell.path = 'scripts/setup-server.sh'
+      shell.path = 'provision/setup-server.sh'
     end
   end
 
@@ -77,7 +77,7 @@ Vagrant.configure(2) do |config|
     backup_config.vm.network :private_network, ip: backup[:ip]
     backup_config.vm.network "forwarded_port", guest: 8111, host: 8112
     backup_config.vm.provision :shell do |shell|
-      shell.path = 'scripts/setup-server.sh'
+      shell.path = 'provision/setup-server.sh'
     end
   end
 
@@ -91,10 +91,10 @@ Vagrant.configure(2) do |config|
       agent_config.vm.hostname = agent[:hostname] + '.' + domain
       agent_config.vm.network :private_network, ip: agent[:ip]
       agent_config.vm.provision :shell do |shell|
-        shell.path = 'scripts/setup-agent.sh'
+        shell.path = 'provision/setup-agent.sh'
       end
       agent_config.vm.provision :shell do |shell|
-        shell.path = 'scripts/setup-agent-dependencies.sh'
+        shell.path = 'provision/setup-agent-dependencies.sh'
       end
     end
   end

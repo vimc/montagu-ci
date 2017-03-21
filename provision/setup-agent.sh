@@ -32,7 +32,7 @@ mkdir -p $TEAMCITY_DIR
 unzip -q /tmp/buildAgent.zip -d $TEAMCITY_DIR
 
 set +x
-. /vagrant/scripts/mo
+. /vagrant/bin/mo
 mo /vagrant/files/agent/buildAgent.dist.properties > \
    $TEAMCITY_DIR/conf/buildAgent.properties
 set -x

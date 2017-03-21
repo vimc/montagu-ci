@@ -57,9 +57,9 @@ Add the apt packages required to [`files/agent/dependencies`](files/agent/depend
 
 ## Updating packages
 
-There is a script `/vagrant/scripts/update-packages.sh'` that does this; it is not in the provisioning though because I don't know how to get parts of the Vagrantfile to run conditionally.  So for now do:
+There is a script `/vagrant/bin/update-packages.sh'` that does this; it is not in the provisioning though because I don't know how to get parts of the Vagrantfile to run conditionally.  So for now do:
 
-    vagrant ssh <name> -- -t 'sudo /vagrant/scripts/upgrade-packages.sh'
+    vagrant ssh <name> -- -t 'sudo /vagrant/bin/upgrade-packages.sh'
 
 which of course needs to be done for all the running machines
 
@@ -67,7 +67,7 @@ which of course needs to be done for all the running machines
 
 The CI server will backup every day into `/opt/TeamCity/data/backup`
 
-From the host, running `./shared/scripts/sync-backups.sh` will syncronise these backups to the host, in the directory `backup`, and will set a link to the most recent one in `restore`.  This will need some work to be cron-able because the working directory will matter.
+From the host, running `./scripts/sync-backups.sh` will syncronise these backups to the host, in the directory `backup`, and will set a link to the most recent one in `restore`.  This will need some work to be cron-able because the working directory will matter.
 
 To restore the server into a *freshly created machine, during provisioning*, run
 

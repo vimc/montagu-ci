@@ -118,7 +118,7 @@ fi
 mkdir -p $TEAMCITY_DATA_DIR/config
 
 set +x
-. /vagrant/scripts/mo
+. /vagrant/bin/mo
 mo /vagrant/files/server/database.mysql.properties.dist > \
    $TEAMCITY_DATABASE_PROPERTIES
 set -x
@@ -165,7 +165,7 @@ update-rc.d teamcity-server defaults
 
 ## TODO: add a weekly or monthly file to thin/delete backups
 set +x
-. /vagrant/scripts/mo
+. /vagrant/bin/mo
 mo /vagrant/files/server/teamcity-backup > \
    /etc/cron.daily/teamcity-backup
 set -x
