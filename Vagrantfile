@@ -91,6 +91,9 @@ Vagrant.configure(2) do |config|
       agent_config.vm.hostname = agent[:hostname] + '.' + domain
       agent_config.vm.network :private_network, ip: agent[:ip]
       agent_config.vm.provision :shell do |shell|
+        shell.path = 'provision/setup-docker.sh'
+      end
+      agent_config.vm.provision :shell do |shell|
         shell.path = 'provision/setup-agent.sh'
       end
       agent_config.vm.provision :shell do |shell|

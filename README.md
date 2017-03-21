@@ -87,6 +87,20 @@ If you're not the person who set the machines up, `vagrant` commands are not goi
 
 If the machines are rebuilt, then you will get the big warning about keys changing.
 
+## docker registry
+
+To set things up with a docker registry, from within the `registry` directory, generate a self signed certificate
+
+    $ (cd registry && ./create_key.sh)
+
+which will copy the certificate into `shared/files/agent/registry.crt` ready for provisioning.  The registry does not need to be running at this point.
+
+To run the registry, run
+
+    $ (cd registry && ./run_registry.sh)
+
+which will run as a daemon.  See the [registry/README.md](registry/README.md) for more information.
+
 ## VIMC notes
 
 Ubuntu 16.04 VMs are used for the server and agents.
@@ -104,3 +118,12 @@ Be aware that `vagrant destroy montagu-ci-server` will take out the second disk 
 The private ip of the server (192.168.80.10) is used the agent configuration and should be updated if the Vagrantfile is.  This will be needed when we test backup recovery.
 
 Slack notifications need an incoming webhook; go [here](https://my.slack.com/services/new/incoming-webhook/) to create one or go [here](https://vimc.slack.com/services/B4LR1L5MH) to get the current URL (starts with `https://hooks.slack.com/services/`)
+
+## Adapting this for other projects
+
+There's relatively little in here that is specific to our needs.  It's more complicated than [this barebones](https://github.com/rodm/teamcity-vagrant) setup because it's aimed at supporting:
+
+* docker builds
+* scriptable backups
+
+Uses of `vimc`, `montagu` and `fi--didelx05` are things to look for to identify customisations to walk away from.

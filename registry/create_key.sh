@@ -18,4 +18,11 @@ openssl req \
         -newkey rsa:4096 -nodes -sha256 -keyout certs/domain.key \
         -x509 -days 365 -out certs/domain.crt \
         -subj $CERT_SUBJ
-exit $?
+SUCCESS=$?
+if [ $SUCCESS -eq 0 ]; then
+    if [ -d ../shared/files/agent ]; then
+        echo "Copying certificate to vagrant shared directory"
+        cp certs/domain.crt ../shared/files/agent/registry.crt
+    fi
+fi
+exit $SUCCESS

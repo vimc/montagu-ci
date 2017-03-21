@@ -4,3 +4,6 @@ shared/restore
 *.vdi
 backup
 .ssh
+# This is OK to commit but I want to avoid this accidently being
+# regenerated and overwritten
+shared/files/agent/registry.crt
