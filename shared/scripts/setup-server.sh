@@ -151,6 +151,7 @@ if [ ! -f $TEAMCITY_DATA_DIR/plugins/$SLACK_NOTIFIER_ZIP ]; then
     if [ ! -f /vagrant/downloads/$SLACK_NOTIFIER_ZIP ]; then
         wget --no-proxy $SLACK_NOTIFIER_URL -P /vagrant/downloads
     fi
+    mkdir -p plugins
     cp /vagrant/downloads/$SLACK_NOTIFIER_ZIP -d $TEAMCITY_DATA_DIR/plugins
 fi
 
