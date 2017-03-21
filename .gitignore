@@ -1,6 +1,6 @@
 .vagrant/
-downloads/
+shared/downloads/
+shared/restore
 *.vdi
 backup
-restore
 .ssh

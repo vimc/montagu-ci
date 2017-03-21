@@ -24,6 +24,7 @@ server_artifacts_disk_size = 30 # in GB
 Vagrant.configure(2) do |config|
   # Common bits:
   config.vm.box = box
+  config.vm.synced_folder 'shared', '/vagrant'
 
   # All nodes need Oracle Java 8 on them
   config.vm.provision :shell do |shell|

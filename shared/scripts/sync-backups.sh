@@ -5,7 +5,7 @@ if [ ! -f .ssh/config ]; then
     vagrant ssh-config montagu-ci-server > .ssh/config
 fi
 
-mkdir -p backup restore
+mkdir -p backup shared/restore
 rsync -av --rsh="ssh -F ${PWD}/.ssh/config" \
       montagu-ci-server:/opt/TeamCity/data/backup/ backup/
 
