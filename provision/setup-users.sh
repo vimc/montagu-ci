@@ -25,7 +25,7 @@ NEW_USERS=$(ls /vagrant/files/keys | sed 's/.pub$//')
 NEW_PASS=horsestaple
 
 for NEW_USER in $NEW_USERS; do
-    getent passwd $NEW_USER > /dev/null 2&>1
+    getent passwd $NEW_USER > /dev/null
     RES=$?
     if [ $RES -eq 0 ]; then
         echo "User $NEW_USER already exists"
