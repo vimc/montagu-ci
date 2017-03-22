@@ -115,7 +115,7 @@ This needs to be done on all non-CI machines that want to use the registry (this
 
     $ sudo mkdir -p /etc/docker/certs.d/fi--didelx05.dide.ic.ac.uk:5000
     $ curl -L https://raw.githubusercontent.com/vimc/montagu-ci/master/registry/certs/domain.crt > domain.crt
-    $ cp domain.crt /etc/docker/certs.d/fi--didelx05.dide.ic.ac.uk:5000
+    $ sudo cp domain.crt /etc/docker/certs.d/fi--didelx05.dide.ic.ac.uk:5000
 
 You can verify that this works with:
 
