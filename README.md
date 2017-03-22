@@ -39,6 +39,10 @@ To create and start a TeamCity build agent, run `vagrant up` with one of the age
 
 Each agent should take 1-2 minutes to provision; this will be much faster than the server because they just pull the files from the java cache and from the server itself.  As the number of dependencies grows, things could get slower though.  There will be a gap of up to a minute before the agent appears in the agents page.
 
+**Note**; the docker registry key must have been generated (if changed) before provisioning the workers.  Practically this is only an issue when starting from absolute scratch.  The provisioning scripts will throw an error if this is not done; after generating the key you can continue with
+
+    $ vagrant provision montagu-ci-agent-01
+
 ## Accessing the TeamCity server
 
 Once the server it started, it can be accessed at http://fi--didelx05:8111 (which is forwarded from the server VM).
@@ -89,17 +93,37 @@ If the machines are rebuilt, then you will get the big warning about keys changi
 
 ## docker registry
 
+There are two parts to this; one is getting the registry running on the CI host and the other is configuring systems to be able to pull and push from the registry.
+
+### Running the registry on the CI host
+
 To set things up with a docker registry, from within the `registry` directory, generate a self signed certificate
 
     $ (cd registry && ./create_key.sh)
 
-which will copy the certificate into `shared/files/agent/registry.crt` ready for provisioning.  The registry does not need to be running at this point.
+which will copy the certificate into `shared/files/agent/registry.crt` ready for provisioning.  The registry does not need to be running at this point.  This step *must* be done to provision the agents.
 
 To run the registry, run
 
     $ (cd registry && ./run_registry.sh)
 
 which will run as a daemon.  See the [registry/README.md](registry/README.md) for more information.
+
+### Configuring docker clients to use the registry
+
+This needs to be done on all non-CI machines that want to use the registry (this is done already for the agents).  First, get the public key for the registry
+
+    $ scp fi--didelx05:montagu-ci/shared/files/agent/registry.crt .
+    $ sudo mkdir -p /etc/docker/certs.d/fi--didelx05.dide.ic.ac.uk:5000
+    $ sudo mv registry.crt /etc/docker/certs.d/fi--didelx05.dide.ic.ac.uk:5000
+
+You can verify that this works with:
+
+    $ docker pull fi--didelx05.dide.ic.ac.uk:5000/postgres
+
+which will pull the image (if needed) but not throw an error.
+
+The registry setup is experimental.  The [offical registry documentation](https://docs.docker.com/registry) may help somewhat.
 
 ## VIMC notes
 

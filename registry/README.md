@@ -13,3 +13,12 @@ To automate these there are some scripts here:
 * `./create_key.sh`: create a key and certificate pair in `certs`
 * `./run_registry.sh`: start the registry server on `localhost:5000`
 * `./destroy_registry.sh`: remove a registry *and delete all image data*
+
+Quick test to see if things work
+
+```
+docker pull postgres
+docker tag postgres fi--didelx05.dide.ic.ac.uk:5000/postgres
+docker push fi--didelx05.dide.ic.ac.uk:5000/postgres
+docker pull fi--didelx05.dide.ic.ac.uk:5000/postgres
+```
