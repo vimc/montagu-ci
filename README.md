@@ -91,6 +91,19 @@ If you're not the person who set the machines up, `vagrant` commands are not goi
 
 If the machines are rebuilt, then you will get the big warning about keys changing.
 
+You can only login after getting onto `fi--didelx05` which is a bit annoying.  So I have my `~/.ssh/config` set up like:
+
+```
+Host fi--didelx05
+  User <domain username>
+  ForwardAgent yes
+Host montagu-ci-server
+  User <montagu username>
+  ProxyCommand ssh -q fi--didelx05 nc 192.168.80.10 22
+```
+
+The configuration for the agents is similar but the ips end in `.11`, `.12` and `.13`.
+
 ## docker registry
 
 There are two parts to this; one is getting the registry running on the CI host and the other is configuring systems to be able to pull and push from the registry.
