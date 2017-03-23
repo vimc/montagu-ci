@@ -129,6 +129,14 @@ This needs to be done on all non-CI machines that want to use the registry (this
     $ sudo mkdir -p /etc/docker/certs.d/fi--didelx05.dide.ic.ac.uk:5000
     $ curl -L https://raw.githubusercontent.com/vimc/montagu-ci/master/registry/certs/domain.crt > domain.crt
     $ sudo cp domain.crt /etc/docker/certs.d/fi--didelx05.dide.ic.ac.uk:5000
+    
+Or on Windows:
+
+1. Download the certificate from https://raw.githubusercontent.com/vimc/montagu-ci/master/registry/certs/domain.crt
+2. Start > "Manage Computer Certificates" (also available in the control panel)
+3. Right-click on "Trusted Root Certification Authoritites" > "All tasks" > "Import"
+4. Browse to the crt file and then keep pressing "Next" to complete the wizard
+5. Restart Docker for Windows
 
 You can verify that this works with:
 
