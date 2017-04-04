@@ -126,9 +126,9 @@ which will run as a daemon.  See the [registry/README.md](registry/README.md) fo
 
 This needs to be done on all non-CI machines that want to use the registry (this is done already for the agents).  First, get the public key for the registry
 
-    $ sudo mkdir -p /etc/docker/certs.d/fi--didelx05.dide.ic.ac.uk:5000
+    $ sudo mkdir -p /etc/docker/certs.d/montagu.dide.ic.ac.uk:5000
     $ curl -L https://raw.githubusercontent.com/vimc/montagu-ci/master/registry/certs/domain.crt > domain.crt
-    $ sudo cp domain.crt /etc/docker/certs.d/fi--didelx05.dide.ic.ac.uk:5000
+    $ sudo cp domain.crt /etc/docker/certs.d/montagu.dide.ic.ac.uk:5000
     
 Or on Windows:
 
@@ -140,7 +140,7 @@ Or on Windows:
 
 You can verify that this works with:
 
-    $ docker pull fi--didelx05.dide.ic.ac.uk:5000/postgres
+    $ docker pull montagu.dide.ic.ac.uk:5000/postgres
 
 which will pull the image (if needed) but not throw an error.
 
