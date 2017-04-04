@@ -1,5 +1,5 @@
 #!/bin/sh
-CERT_COMMONNAME="fi--didelx05.dide.ic.ac.uk"
+CERT_COMMONNAME="montagu.dide.ic.ac.uk"
 CERT_COUNTRY="UK"
 CERT_STATE="London"
 CERT_LOCALITY="London"
