@@ -94,6 +94,9 @@ Vagrant.configure(2) do |config|
         shell.path = 'provision/setup-docker.sh'
       end
       agent_config.vm.provision :shell do |shell|
+        shell.path = 'provision/setup-docker-compose.sh'
+      end
+agent_config.vm.provision :shell do |shell|
         shell.path = 'provision/setup-agent.sh'
       end
       agent_config.vm.provision :shell do |shell|
