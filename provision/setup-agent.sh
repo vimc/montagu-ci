@@ -2,7 +2,10 @@
 
 set -x
 
-source provision/teamcity-agent-common.sh
+# This must agree with the three lines in setup-agent-users.sh
+TEAMCITY_DIR=/opt/teamcity-agent
+TEAMCITY_USER=teamcity
+TEAMCITY_GROUP=teamcity
 TEAMCITY_SERVER_ROOT="http://teamcity:8111/"
 AGENT_NAME=`hostname -s`
 
