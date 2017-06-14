@@ -11,13 +11,13 @@ else
          "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
    $(lsb_release -cs) \
    stable"
-    apt-get update
-    apt-get install -y docker-ce
+    sudo apt-get update
+    sudo apt-get install -y docker-ce
 fi
 
 if getent passwd teamcity > /dev/null; then
     if id -Gn teamcity | grep -qv "\bdocker\b"; then
         echo "Adding teamcity to the docker group"
-        usermod -aG docker teamcity
+        sudo usermod -aG docker teamcity
     fi
 fi
