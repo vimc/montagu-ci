@@ -12,7 +12,7 @@ TEAMCITY_DB_PASS=teamcity
 TEAMCITY_USER=teamcity
 TEAMCITY_GROUP=teamcity
 
-TEAMCITY_BACKUP="/vagrant/restore/$(hostname).zip"
+TEAMCITY_BACKUP="/vagrant/restore/teamcity-restore.zip"
 
 # NOTE: The TEAMCITY_DIR variable _must_ end in TeamCity unless some
 # faffage is done because that's the top level name in the tgz.  It's
@@ -21,7 +21,7 @@ TEAMCITY_BACKUP="/vagrant/restore/$(hostname).zip"
 TEAMCITY_DIR=/opt/TeamCity
 TEAMCITY_DATA_DIR=${TEAMCITY_DIR}/data
 
-TEAMCITY_VERSION=10.0.5
+TEAMCITY_VERSION=2017.1.2
 TEAMCITY_TGZ=TeamCity-${TEAMCITY_VERSION}.tar.gz
 TEAMCITY_URL=http://download.jetbrains.com/teamcity/$TEAMCITY_TGZ
 
