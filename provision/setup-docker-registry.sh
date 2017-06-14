@@ -2,7 +2,7 @@
 
 set -x
 
-REGISTRY_HOST=montagu.dide.ic.ac.uk:5000
+REGISTRY_HOST=docker.montagu.dide.ic.ac.uk:5000
 CERT_DEST=/etc/docker/certs.d/$REGISTRY_HOST
 CERT_SRC=/vagrant/files/agent/registry.crt
 

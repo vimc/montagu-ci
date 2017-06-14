@@ -45,9 +45,9 @@ Each agent should take 1-2 minutes to provision; this will be much faster than t
 
 ## Accessing the TeamCity server
 
-Once the server it started, it can be accessed at http://fi--didelx05:8111 (which is forwarded from the server VM).
+Once the server it started, it can be accessed at http://teamcity.montagu.dide.ic.ac.uk (which is forwarded from the server VM).
 
-Once one or more agents have been started they can be authorised from the Agents page in the web UI, http://fi--didelx05:8111/agents.html.
+Once one or more agents have been started they can be authorised from the Agents page in the web UI, http://teamcity.montagu.dide.ic.ac.uk/agents.html.
 
 See the [TeamCity Administrator's Guide](https://confluence.jetbrains.com/display/TCD9/Administrator%27s+Guide) for configuring the server.
 
@@ -91,15 +91,15 @@ If you're not the person who set the machines up, `vagrant` commands are not goi
 
 If the machines are rebuilt, then you will get the big warning about keys changing.
 
-You can only login after getting onto `fi--didelx05` which is a bit annoying.  So I have my `~/.ssh/config` set up like:
+You can only login after getting onto `support.montagu.dide.ic.ac.uk`; once on that machine you can possibly connect through with:
 
 ```
-Host fi--didelx05
-  User <domain username>
+Host support.montagu support.montagu.dide.ic.ac.uk
+  User <montagu username>
   ForwardAgent yes
 Host montagu-ci-server
   User <montagu username>
-  ProxyCommand ssh -q fi--didelx05 nc 192.168.80.10 22
+  ProxyCommand ssh -q support.montagu.dide.ic.ac.uk nc 192.168.80.10 22
 ```
 
 The configuration for the agents is similar but the ips end in `.11`, `.12` and `.13`.
@@ -126,9 +126,9 @@ which will run as a daemon.  See the [registry/README.md](registry/README.md) fo
 
 This needs to be done on all non-CI machines that want to use the registry (this is done already for the agents).  First, get the public key for the registry
 
-    $ sudo mkdir -p /etc/docker/certs.d/montagu.dide.ic.ac.uk:5000
+    $ sudo mkdir -p /etc/docker/certs.d/docker.montagu.dide.ic.ac.uk:5000
     $ curl -L https://raw.githubusercontent.com/vimc/montagu-ci/master/registry/certs/domain.crt > domain.crt
-    $ sudo cp domain.crt /etc/docker/certs.d/montagu.dide.ic.ac.uk:5000
+    $ sudo cp domain.crt /etc/docker/certs.d/docker.montagu.dide.ic.ac.uk:5000
     
 Or on Windows:
 
@@ -140,7 +140,7 @@ Or on Windows:
 
 You can verify that this works with:
 
-    $ docker pull montagu.dide.ic.ac.uk:5000/postgres
+    $ docker pull docker.montagu.dide.ic.ac.uk:5000/postgres
 
 which will pull the image (if needed) but not throw an error.
 
@@ -154,7 +154,7 @@ The TeamCity .tar.gz file is downloaded by the scripts and saved to the `downloa
 
 The server provisioning takes about 10-15 minutes including downloading.  There will be a couple of minutes lag between the VM starting and the landing page being available.  The maintenance page will also about 5 minutes to get through, after which there is a licence agreement to deal with.
 
-Then start an agent.  It'll take a few minutes to start and will, a few minutes later, apear in [the agents page](http://fi--didelx05:8111/agents.html) under "Unauthorized".  Clicking the tab takes you through to the [page to authorise the agent](http://fi--didelx05:8111/agents.html?tab=unauthorizedAgents).
+Then start an agent.  It'll take a few minutes to start and will, a few minutes later, apear in [the agents page](http://teamcity.montagu.dide.ic.ac.uk/agents.html) under "Unauthorized".  Clicking the tab takes you through to the [page to authorise the agent](http://teamcity.montagu.dide.ic.ac.uk/agents.html?tab=unauthorizedAgents).
 
 The server has a separate "data" disk, following suggestions in the [teamcity documentation](https://confluence.jetbrains.com/display/TCD10/TeamCity+Data+Directory) to keep the build directory off the system disk.  The size of this disk can be configured in the Vagrantfile.
 
@@ -171,4 +171,4 @@ There's relatively little in here that is specific to our needs.  It's more comp
 * docker builds
 * scriptable backups
 
-Uses of `vimc`, `montagu` and `fi--didelx05` are things to look for to identify customisations to walk away from.
+Uses of `vimc`, `montagu` are things to look for to identify customisations to walk away from.

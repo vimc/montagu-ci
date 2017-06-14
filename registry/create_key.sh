@@ -1,5 +1,5 @@
 #!/bin/sh
-CERT_COMMONNAME="fi--didevimc02.dide.ic.ac.uk"
+CERT_COMMONNAME="docker.montagu.dide.ic.ac.uk"
 CERT_COUNTRY="UK"
 CERT_STATE="London"
 CERT_LOCALITY="London"
