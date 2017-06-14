@@ -93,7 +93,7 @@ Vagrant.configure(2) do |config|
       # This needs to come before the setup-docker because the latter
       # depends on the existance of a teamcity user.
       agent_config.vm.provision :shell do |shell|
-        shell.path = 'provision/setup-agent.sh'
+        shell.path = 'provision/setup-agent-users.sh'
       end
       agent_config.vm.provision :shell do |shell|
         shell.path = 'provision/setup-docker.sh'
@@ -103,6 +103,11 @@ Vagrant.configure(2) do |config|
       end
       agent_config.vm.provision :shell do |shell|
         shell.path = 'provision/setup-docker-compose.sh'
+      end
+      # This needs to come after docker so that the agent can use the
+      # docker process.
+      agent_config.vm.provision :shell do |shell|
+        shell.path = 'provision/setup-agent.sh'
       end
       agent_config.vm.provision :shell do |shell|
         shell.path = 'provision/setup-agent-dependencies.sh'
