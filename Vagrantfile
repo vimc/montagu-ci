@@ -90,6 +90,11 @@ Vagrant.configure(2) do |config|
       end
       agent_config.vm.hostname = agent[:hostname] + '.' + domain
       agent_config.vm.network :private_network, ip: agent[:ip]
+      # This needs to come before the setup-docker because the latter
+      # depends on the existance of a teamcity user.
+      agent_config.vm.provision :shell do |shell|
+        shell.path = 'provision/setup-agent.sh'
+      end
       agent_config.vm.provision :shell do |shell|
         shell.path = 'provision/setup-docker.sh'
       end
@@ -98,9 +103,6 @@ Vagrant.configure(2) do |config|
       end
       agent_config.vm.provision :shell do |shell|
         shell.path = 'provision/setup-docker-compose.sh'
-      end
-      agent_config.vm.provision :shell do |shell|
-        shell.path = 'provision/setup-agent.sh'
       end
       agent_config.vm.provision :shell do |shell|
         shell.path = 'provision/setup-agent-dependencies.sh'
