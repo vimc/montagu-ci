@@ -50,7 +50,7 @@ Vagrant.configure(2) do |config|
     end
     server_config.vm.hostname = server[:hostname] + '.' + domain
     server_config.vm.network :private_network, ip: server[:ip]
-    server_config.vm.network "forwarded_port", guest: 8111, host: 80
+    server_config.vm.network "forwarded_port", guest: 8111, host: 8111
     server_config.vm.provision :shell do |shell|
       shell.path = 'provision/setup-server-disk.sh'
     end
