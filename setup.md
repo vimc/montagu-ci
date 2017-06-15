@@ -13,6 +13,21 @@
     sudo apt-get install curl git vim
     sudo update-alternatives --set editor `which vim.basic`
 
+# Secure ssh
+
+Copy your keys to the server!
+
+Then change these in `/etc/ssh/sshd_config`
+
+    PermitRootLogin no
+    PasswordAuthentication no
+
+and run
+
+    sudo service ssh restart
+
+which does not affect the running session.  Then confirm you can still log in with keys and cannot without
+
 # User setup (everyone will need to do this)
 
     git config --global user.name "Rich FitzJohn"
