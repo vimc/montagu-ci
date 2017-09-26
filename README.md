@@ -87,6 +87,18 @@ which will open a new instance of TeamCity server with the most recently backed 
 
 ## Logging into the machines
 
+Through a series of twisty passages:
+
+```
+ssh support.montagu.dide.ic.ac.uk
+sudo su vagrant
+cd ~/montagu-ci
+vagrant status
+vagrant ssh montagu-ci-agent-01
+```
+
+(this bit is out of date but still contains some relevant information...)
+
 If you're not the person who set the machines up, `vagrant` commands are not going to work.  So add ssh public keys into [`files/keys`](files/keys) named with the username (e.g., `rich.pub` is the key for a user called `rich`).  During provisioning, we create a sudo-able user account for each user listed here.  Password login is disabled but after logging in you can sudo with the password [horsestaple](https://xkcd.com/936/).  See [VIMC-72](https://vimc.myjetbrains.com/youtrack/issue/VIMC-72) for something better.
 
 If the machines are rebuilt, then you will get the big warning about keys changing.
