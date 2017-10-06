@@ -13,4 +13,4 @@ TEAMCITY_GROUP={{TEAMCITY_GROUP}}
 export JAVA_HOME=/usr/lib/jvm/java-8-oracle
 $TEAMCITY_DIR/bin/maintainDB.sh backup -C -D -L -P -U -A $TEAMCITY_DATA_DIR
 chown -R $TEAMCITY_USER:$TEAMCITY_GROUP $TEAMCITY_DATA_DIR/backup
-chmod -R 444 $TEAMCITY_DATA_DIR/backup
+chmod 644 $TEAMCITY_DATA_DIR/backup/*.zip
