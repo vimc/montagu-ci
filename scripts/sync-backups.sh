@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # TODO: This might be better to avoid and prefer a ssh key backup?  I
 # already have regular users set up.
@@ -24,9 +24,7 @@ rm -f $RESTORE_DIR/$RESTORE_LATEST $RESTORE_DIR/$RESTORE_TEST
 
 if [ ! -z $LAST_BACKUP ]; then
     echo "Setting $LAST_BACKUP as current backup"
-    # NOTE: this creates a _hard_ link which allows it to be read from
-    # the source machine
-    ln $BACKUP_DIR/$LAST_BACKUP $RESTORE_DIR/$RESTORE_LATEST
+    cp --reflink $BACKUP_DIR/$LAST_BACKUP $RESTORE_DIR/$RESTORE_LATEST
     ln -s $RESTORE_LATEST $RESTORE_DIR/$RESTORE_TEST
 else
     echo "No backup exists; not creating link"
