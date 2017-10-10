@@ -71,7 +71,7 @@ which of course needs to be done for all the running machines
 
 The CI server will backup every day into `/opt/TeamCity/data/backup`
 
-From the host, running `./scripts/sync-backups.sh` will syncronise these backups to the host, in the directory `backup`, and will set a link to the most recent one in `restore`.  This will need some work to be cron-able because the working directory will matter.
+From the host, as root, run the script `./scripts/write-cron-teamcity-backup-sync.sh` to write out a cron job that will organise syncing backups every night.  This will create backups in `/vagrant/teamcity` (edit `scripts/sync-backups.sh` to change) as well as creating a link to the most recent backup in `restore`.
 
 To restore the server into a *freshly created machine, during provisioning*, run
 
