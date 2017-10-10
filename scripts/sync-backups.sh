@@ -24,7 +24,7 @@ rm -f $RESTORE_DIR/$RESTORE_LATEST $RESTORE_DIR/$RESTORE_TEST
 
 if [ ! -z $LAST_BACKUP ]; then
     echo "Setting $LAST_BACKUP as current backup"
-    cp --reflink $BACKUP_DIR/$LAST_BACKUP $RESTORE_DIR/$RESTORE_LATEST
+    cp $BACKUP_DIR/$LAST_BACKUP $RESTORE_DIR/$RESTORE_LATEST
     ln -s $RESTORE_LATEST $RESTORE_DIR/$RESTORE_TEST
 else
     echo "No backup exists; not creating link"
