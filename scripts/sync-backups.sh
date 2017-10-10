@@ -12,7 +12,7 @@ RESTORE_LATEST=TeamCity_Backup.zip
 RESTORE_TEST=montagu-ci-backup.zip
 RESTORE_DIR=shared/restore
 # relative from the restore directory
-BACKUP_DIR=backup
+BACKUP_DIR=/montagu/teamcity
 
 mkdir -p $BACKUP_DIR $RESTORE_DIR
 rsync -av --rsh="ssh -F ${PWD}/.ssh/config" \
