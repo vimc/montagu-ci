@@ -5,7 +5,7 @@ if [ ! -f scripts/sync-backups.sh ]; then
 fi
 
 PATH_VAGRANT=$PWD
-DEST=/etc/cron.daily/teamcity-backup-sync.sh
+DEST=/etc/cron.daily/teamcity-backup-sync
 
 cat <<EOF > $DEST
 #!/bin/sh
