@@ -1,4 +1,6 @@
 #!/bin/sh
+set -e
+
 if [ ! -f scripts/sync-backups.sh ]; then
     echo "Run this from the montagu-ci directory"
     exit 1
