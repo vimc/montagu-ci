@@ -14,6 +14,12 @@ set -e
 #    PWD is referenced)
 #
 # 3. writes out the cron script including this path
+
+# Note that this is run on the *host* machine - the provisioning step
+# already arranges for nightly backups to run and for these backups to
+# be stored in the 'shared' directory.  The cron job here will
+# syncronise these backups into a regular directory on the host
+# machine in a place that can easily be backed up.
 if [ ! -f scripts/sync-backups.sh ]; then
     echo "Run this from the montagu-ci directory"
     exit 1
