@@ -176,6 +176,22 @@ The private ip of the server (192.168.80.10) is used the agent configuration and
 
 Slack notifications need an incoming webhook; go [here](https://my.slack.com/services/new/incoming-webhook/) to create one or go [here](https://vimc.slack.com/services/B4LR1L5MH) to get the current URL (starts with `https://hooks.slack.com/services/`)
 
+## Agents out of space
+
+With the current configuration, the agents don't have a terrific amount of space and docker is very space hungry.  We need to organise some sort of scheduled cleanup [VIMC-259](https://vimc.myjetbrains.com/youtrack/issue/VIMC-259), [VIMC-612](https://vimc.myjetbrains.com/youtrack/issue/VIMC-612).  For now, when jobs start failing log onto worker that is out of space and do one of
+
+```
+sudo docker system prune -f
+```
+
+which will free up a GB or two, or more agressively
+
+```
+sudo docker rmi $(sudo docker images -q)
+```
+
+(run with `-f` and repeatedly to clean even more).  Every issue can be pulled from the registry so it should always be reasonable to clean images out.
+
 ## Adapting this for other projects
 
 There's relatively little in here that is specific to our needs.  It's more complicated than [this barebones](https://github.com/rodm/teamcity-vagrant) setup because it's aimed at supporting:
