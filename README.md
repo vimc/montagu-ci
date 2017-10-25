@@ -74,7 +74,7 @@ which of course needs to be done for all the running machines
 
 The CI server will backup every day into `/opt/TeamCity/data/backup`
 
-From the host, running `./scripts/sync-backups.sh` will syncronise these backups to the host, in the directory `backup`, and will set a link to the most recent one in `restore`.  This will need some work to be cron-able because the working directory will matter.
+From the host, as root, run the script `./scripts/write-cron-teamcity-backup-sync.sh` to write out a cron job that will organise syncing backups every night.  This will create backups in `/vagrant/teamcity` (edit `scripts/sync-backups.sh` to change) as well as creating a link to the most recent backup in `restore`.
 
 To restore the server into a *freshly created machine, during provisioning*, run
 
@@ -89,6 +89,18 @@ To test that the restore works, run
 which will open a new instance of TeamCity server with the most recently backed up (and synchronised) data.  It will be available on port 8112 (it will have no agents though as they register themselves with the main host).  As with the main server, it will take 1-2 minutes for the login page to work after provisioning is complete.
 
 ## Logging into the machines
+
+Through a series of twisty passages:
+
+```
+ssh support.montagu.dide.ic.ac.uk
+sudo su vagrant
+cd ~/montagu-ci
+vagrant status
+vagrant ssh montagu-ci-agent-01
+```
+
+(this bit is out of date but still contains some relevant information...)
 
 If you're not the person who set the machines up, `vagrant` commands are not going to work.  So add ssh public keys into [`files/keys`](files/keys) named with the username (e.g., `rich.pub` is the key for a user called `rich`).  During provisioning, we create a sudo-able user account for each user listed here.  Password login is disabled but after logging in you can sudo with the password [horsestaple](https://xkcd.com/936/).  See [VIMC-72](https://vimc.myjetbrains.com/youtrack/issue/VIMC-72) for something better.
 
@@ -166,6 +178,22 @@ Be aware that `vagrant destroy montagu-ci-server` will take out the second disk 
 The private ip of the server (192.168.80.10) is used the agent configuration and should be updated if the Vagrantfile is.  This will be needed when we test backup recovery.
 
 Slack notifications need an incoming webhook; go [here](https://my.slack.com/services/new/incoming-webhook/) to create one or go [here](https://vimc.slack.com/services/B4LR1L5MH) to get the current URL (starts with `https://hooks.slack.com/services/`)
+
+## Agents out of space
+
+With the current configuration, the agents don't have a terrific amount of space and docker is very space hungry.  We need to organise some sort of scheduled cleanup [VIMC-259](https://vimc.myjetbrains.com/youtrack/issue/VIMC-259), [VIMC-612](https://vimc.myjetbrains.com/youtrack/issue/VIMC-612).  For now, when jobs start failing log onto worker that is out of space and do one of
+
+```
+sudo docker system prune -f
+```
+
+which will free up a GB or two, or more agressively
+
+```
+sudo docker rmi $(sudo docker images -q)
+```
+
+(run with `-f` and repeatedly to clean even more).  Every issue can be pulled from the registry so it should always be reasonable to clean images out.
 
 ## Adapting this for other projects
 
