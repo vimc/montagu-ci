@@ -24,6 +24,9 @@ To create the TeamCity server VM and start the server, run:
 
 **Note:** the first run may take up to 10 minutes, more on a slow connection as there is a lot to download.  Provisioning (not including downloading) takes about 2-3 minutes, and there is a further 1-2 minutes of maintenence after the server starts up while teamcity starts its systems.
 
+The server should start automatically. It didn't when we tried on 25/10/17, and
+we had to ssh in, become root, and run `/etc/init.d/teamcity-server start`.
+
 To create and start a TeamCity build agent, run `vagrant up` with one of the agent names;
 
     $ vagrant up montagu-ci-agent-01
