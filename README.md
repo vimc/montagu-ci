@@ -13,6 +13,7 @@ Use the `"CI system"` component in [YouTrack](https://vimc.myjetbrains.com/youtr
 1. Install in the host machine:
 * [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 * [Vagrant](https://www.vagrantup.com/downloads.html)
+* [vagrant-disksize](https://github.com/sprotheroe/vagrant-disksize) (`vagrant plugin install vagrant-disksize`)
 
 2. Clone this repository.
 
