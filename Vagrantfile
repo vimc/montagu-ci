@@ -20,7 +20,6 @@ backup =
 # let's pull it out into its own thing for now
 server_data_disk = 'server_data_disk.vdi'
 server_data_disk_size = 30 # in GB
-worker_disk_size = 100 # in GB
 
 Vagrant.configure(2) do |config|
   # Common bits:
@@ -88,7 +87,6 @@ Vagrant.configure(2) do |config|
       agent_config.vm.provider :virtualbox do | vbox |
         vbox.gui = false
         vbox.memory = agent[:ram]
-        config.disksize.size = "#{worker_disk_size}GB"
       end
       agent_config.vm.hostname = agent[:hostname] + '.' + domain
       agent_config.vm.network :private_network, ip: agent[:ip]
