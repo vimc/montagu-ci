@@ -21,3 +21,6 @@ if getent passwd teamcity > /dev/null; then
         sudo usermod -aG docker teamcity
     fi
 fi
+
+echo "Setting up cleanup script"
+cp /vagrant/files/agent/docker-cleanup /etc/cron.d/daily
