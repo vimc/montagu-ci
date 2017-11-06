@@ -23,4 +23,4 @@ if getent passwd teamcity > /dev/null; then
 fi
 
 echo "Setting up cleanup script"
-cp /vagrant/files/agent/docker-cleanup /etc/cron.d/daily
+cp /vagrant/files/agent/docker-cleanup /etc/cron.daily
