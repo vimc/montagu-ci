@@ -139,27 +139,9 @@ which will run as a daemon.  See the [registry/README.md](registry/README.md) fo
 
 ### Configuring docker clients to use the registry
 
-This needs to be done on all non-CI machines that want to use the registry (this is done already for the agents).  First, get the public key for the registry
+You must login to the docker registry to be able to push or pull.  The login lasts as long as the username/password are not changed (which is not frequent).  The general documentation is in the [montagu-registry](https://github.com/vimc/montagu-registry/tree/master#login) repository.
 
-    $ sudo mkdir -p /etc/docker/certs.d/docker.montagu.dide.ic.ac.uk:5000
-    $ curl -L https://raw.githubusercontent.com/vimc/montagu-ci/master/registry/certs/domain.crt > domain.crt
-    $ sudo cp domain.crt /etc/docker/certs.d/docker.montagu.dide.ic.ac.uk:5000
-    
-Or on Windows:
-
-1. Download the certificate from https://raw.githubusercontent.com/vimc/montagu-ci/master/registry/certs/domain.crt
-2. Start > "Manage Computer Certificates" (also available in the control panel)
-3. Right-click on "Trusted Root Certification Authoritites" > "All tasks" > "Import"
-4. Browse to the crt file and then keep pressing "Next" to complete the wizard
-5. Restart Docker for Windows
-
-You can verify that this works with:
-
-    $ docker pull docker.montagu.dide.ic.ac.uk:5000/postgres
-
-which will pull the image (if needed) but not throw an error.
-
-The registry setup is experimental.  The [offical registry documentation](https://docs.docker.com/registry) may help somewhat.
+For agents, this can be done by logging into each agent and running `montagu-docker-login`, which will prompt for your github PAT.
 
 ## VIMC notes
 
