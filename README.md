@@ -42,10 +42,6 @@ To create and start a TeamCity build agent, run `vagrant up` with one of the age
 
 Each agent should take 1-2 minutes to provision; this will be much faster than the server because they just pull the files from the java cache and from the server itself.  As the number of dependencies grows, things could get slower though.  There will be a gap of up to a minute before the agent appears in the agents page.
 
-**Note**; the docker registry key must have been generated (if changed) before provisioning the workers.  Practically this is only an issue when starting from absolute scratch.  The provisioning scripts will throw an error if this is not done; after generating the key you can continue with
-
-    $ vagrant provision montagu-ci-agent-01
-
 ## Accessing the TeamCity server
 
 Once the server it started, it can be accessed at http://teamcity.montagu.dide.ic.ac.uk (which is forwarded from the server VM).

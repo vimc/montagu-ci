@@ -88,22 +88,3 @@ Vagrant is going to work best an extra user so that more than one person can con
      sudo su vagrant
      cd
      git clone https://github.com/vimc/montagu-ci
-
-## Set up the docker registry
-
-Within `montagu-ci/registry`, following [instructions](https://github.com/vimc/montagu-ci#docker-registry)
-
-    docker volume create registry_data
-    rm certs/domain*
-    ./create_key.sh
-    sudo mkdir -p "/etc/docker/certs.d/docker.montagu.dide.ic.ac.uk:5000"
-    sudo cp certs/domain.crt "/etc/docker/certs.d/docker.montagu.dide.ic.ac.uk:5000"
-    sudo service docker restart
-    ./run_registry.sh
-
-Test with:
-
-    docker pull postgres
-    docker tag postgres docker.montagu.dide.ic.ac.uk:5000/postgres
-    docker push docker.montagu.dide.ic.ac.uk:5000/postgres
-    docker pull docker.montagu.dide.ic.ac.uk:5000/postgres
