@@ -125,23 +125,13 @@ There are two parts to this; one is getting the registry running on the CI host 
 
 ### Running the registry on the CI host
 
-To set things up with a docker registry, from within the `registry` directory, generate a self signed certificate
-
-    $ (cd registry && ./create_key.sh)
-
-which will copy the certificate into `shared/files/agent/registry.crt` ready for provisioning.  The registry does not need to be running at this point.  This step *must* be done to provision the agents.
-
-To run the registry, run
-
-    $ (cd registry && ./run_registry.sh)
-
-which will run as a daemon.  See the [registry/README.md](registry/README.md) for more information.
+See [montagu-registry](https://github.com/vimc/montagu-registry) for details on getting the registry up and running.
 
 ### Configuring docker clients to use the registry
 
 You must login to the docker registry to be able to push or pull.  The login lasts as long as the username/password are not changed (which is not frequent).  The general documentation is in the [montagu-registry](https://github.com/vimc/montagu-registry/tree/master#login) repository.
 
-For agents, this can be done by logging into each agent and running `montagu-docker-login`, which will prompt for your github PAT.
+For agents, this can be done by logging into each agent and running `montagu-docker-login`, which will prompt for your GitHub PAT.
 
 ## VIMC notes
 
