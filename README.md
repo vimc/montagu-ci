@@ -42,10 +42,6 @@ To create and start a TeamCity build agent, run `vagrant up` with one of the age
 
 Each agent should take 1-2 minutes to provision; this will be much faster than the server because they just pull the files from the java cache and from the server itself.  As the number of dependencies grows, things could get slower though.  There will be a gap of up to a minute before the agent appears in the agents page.
 
-**Note**; the docker registry key must have been generated (if changed) before provisioning the workers.  Practically this is only an issue when starting from absolute scratch.  The provisioning scripts will throw an error if this is not done; after generating the key you can continue with
-
-    $ vagrant provision montagu-ci-agent-01
-
 ## Accessing the TeamCity server
 
 Once the server it started, it can be accessed at http://teamcity.montagu.dide.ic.ac.uk (which is forwarded from the server VM).
@@ -125,41 +121,13 @@ There are two parts to this; one is getting the registry running on the CI host 
 
 ### Running the registry on the CI host
 
-To set things up with a docker registry, from within the `registry` directory, generate a self signed certificate
-
-    $ (cd registry && ./create_key.sh)
-
-which will copy the certificate into `shared/files/agent/registry.crt` ready for provisioning.  The registry does not need to be running at this point.  This step *must* be done to provision the agents.
-
-To run the registry, run
-
-    $ (cd registry && ./run_registry.sh)
-
-which will run as a daemon.  See the [registry/README.md](registry/README.md) for more information.
+See [montagu-registry](https://github.com/vimc/montagu-registry) for details on getting the registry up and running.
 
 ### Configuring docker clients to use the registry
 
-This needs to be done on all non-CI machines that want to use the registry (this is done already for the agents).  First, get the public key for the registry
+You must login to the docker registry to be able to push or pull.  The login lasts as long as the username/password are not changed (which is not frequent).  The general documentation is in the [montagu-registry](https://github.com/vimc/montagu-registry/tree/master#login) repository.
 
-    $ sudo mkdir -p /etc/docker/certs.d/docker.montagu.dide.ic.ac.uk:5000
-    $ curl -L https://raw.githubusercontent.com/vimc/montagu-ci/master/registry/certs/domain.crt > domain.crt
-    $ sudo cp domain.crt /etc/docker/certs.d/docker.montagu.dide.ic.ac.uk:5000
-    
-Or on Windows:
-
-1. Download the certificate from https://raw.githubusercontent.com/vimc/montagu-ci/master/registry/certs/domain.crt
-2. Start > "Manage Computer Certificates" (also available in the control panel)
-3. Right-click on "Trusted Root Certification Authoritites" > "All tasks" > "Import"
-4. Browse to the crt file and then keep pressing "Next" to complete the wizard
-5. Restart Docker for Windows
-
-You can verify that this works with:
-
-    $ docker pull docker.montagu.dide.ic.ac.uk:5000/postgres
-
-which will pull the image (if needed) but not throw an error.
-
-The registry setup is experimental.  The [offical registry documentation](https://docs.docker.com/registry) may help somewhat.
+For agents, this can be done by logging into each agent and running `montagu-docker-login`, which will prompt for your GitHub PAT.
 
 ## VIMC notes
 
