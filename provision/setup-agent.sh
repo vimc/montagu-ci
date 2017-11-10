@@ -49,8 +49,8 @@ else
     VAULT_ZIP=vault_${VAULT_VERSION}_linux_amd64.zip
     wget https://releases.hashicorp.com/vault/${VAULT_VERSION}/${VAULT_ZIP}
     unzip ${VAULT_ZIP}
-    rm ${VAULT_ZIP}
     mv vault /usr/bin
+    rm ${VAULT_ZIP}
 fi
 
 cp /vagrant/files/agent/montagu-docker-login /usr/bin/
