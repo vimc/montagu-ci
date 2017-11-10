@@ -127,10 +127,12 @@ See [montagu-registry](https://github.com/vimc/montagu-registry) for details on 
 
 You must login to the docker registry to be able to push or pull.  The login lasts as long as the username/password are not changed (which is not frequent).  The general documentation is in the [montagu-registry](https://github.com/vimc/montagu-registry/tree/master#login) repository.
 
-For agents, this can be done by logging into each agent and running
+For the agents, this can be done by running (from `support.montagu`)
 
 ```
 vagrant ssh -c 'sudo su teamcity montagu-docker-login' montagu-ci-agent-01
+vagrant ssh -c 'sudo su teamcity montagu-docker-login' montagu-ci-agent-02
+vagrant ssh -c 'sudo su teamcity montagu-docker-login' montagu-ci-agent-03
 ```
 
 which will prompt for your GitHub PAT.
