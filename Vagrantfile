@@ -18,14 +18,19 @@ backup =
 
 # This is the thing that will significantly change size over time, so
 # let's pull it out into its own thing for now
-server_data_disk = 'server_data_disk.vdi'
-backup_data_disk = 'backup_data_disk.vdi'
-server_data_disk_size = 60 # in GB
+server_data_disk_size = 60 # in MB
+agent_data_disk_size = 30 # in MB
 
 Vagrant.configure(2) do |config|
   # Common bits:
   config.vm.box = box
   config.vm.synced_folder 'shared', '/vagrant'
+
+  # Configure a second disk
+  config.persistent_storage.enabled = true
+  config.mountname = "data"
+  config.filesystem = "ext4"
+  config.mountpoint = "/mnt/data"
 
   # All nodes need Oracle Java 8 on them
   config.vm.provision :shell do |shell|
@@ -39,16 +44,12 @@ Vagrant.configure(2) do |config|
   config.vm.define server[:hostname] do |server_config|
     server_config.vm.provider :virtualbox do |vbox|
       vbox.gui = false
-      unless File.exist?(server_data_disk)
-        vbox.customize ['createhd', '--filename', server_data_disk,
-                        '--variant', 'Fixed',
-                        '--size', server_data_disk_size * 1024]
-      end
       vbox.memory = server[:ram]
-      vbox.customize ['storageattach', :id, '--storagectl', 'SATA Controller',
-                      '--port', 1, '--device', 0, '--type', 'hdd',
-                      '--medium', server_data_disk]
     end
+
+    server_config.persistent_storage.size = server_data_disk_size * 1024
+    server_config.persistent_storage.location = "disk/#{server[:hostname]}.vdi"
+
     server_config.vm.hostname = server[:hostname] + '.' + domain
     server_config.vm.network :private_network, ip: server[:ip]
     server_config.vm.network "forwarded_port", guest: 8111, host: 8111
@@ -70,18 +71,17 @@ Vagrant.configure(2) do |config|
   #
   # We'll deal with filling the backup during setup-server.sh
   config.vm.define backup[:hostname] do |backup_config|
+    backup_config.persistent_storage.size = server_data_disk_size * 1024
+    backup_data_disk = "disk/#{backup[:hostname]}.vdi"
+
     backup_config.vm.provider :virtualbox do |vbox|
       vbox.gui = false
-      unless File.exist?(backup_data_disk)
-        vbox.customize ['createhd', '--filename', backup_data_disk,
-                        '--variant', 'Fixed',
-                        '--size', server_data_disk_size * 1024]
-      end
       vbox.memory = backup[:ram]
-      vbox.customize ['storageattach', :id, '--storagectl', 'SATA Controller',
-                      '--port', 1, '--device', 0, '--type', 'hdd',
-                      '--medium', backup_data_disk]
     end
+
+    backup_config.persistent_storage.size = server_data_disk_size * 1024
+    backup_config.persistent_storage.location = "disk/#{backup[:hostname]}.vdi"
+
     backup_config.vm.hostname = backup[:hostname] + '.' + domain
     backup_config.vm.network :private_network, ip: backup[:ip]
     backup_config.vm.network "forwarded_port", guest: 8111, host: 8112
@@ -100,10 +100,17 @@ Vagrant.configure(2) do |config|
         vbox.gui = false
         vbox.memory = agent[:ram]
       end
+
+      agent_config.persistent_storage.size = agent_data_disk_size * 1024
+      agent_config.persistent_storage.location = "disk/#{agent[:hostname]}.vdi"
+
       agent_config.vm.hostname = agent[:hostname] + '.' + domain
       agent_config.vm.network :private_network, ip: agent[:ip]
       # This needs to come before the setup-docker because the latter
       # depends on the existance of a teamcity user.
+      agent_config.vm.provision :shell do |shell|
+        shell.path = 'provision/setup-disk.sh'
+      end
       agent_config.vm.provision :shell do |shell|
         shell.path = 'provision/setup-agent-users.sh'
       end

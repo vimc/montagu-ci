@@ -22,6 +22,7 @@ Use the `"CI system"` component in [YouTrack](https://vimc.myjetbrains.com/youtr
 
 To create the TeamCity server VM and start the server, run:
 
+    $ vagrant plugin install vagrant-persistent-storage
     $ vagrant up montagu-ci-server
 
 **Note:** the first run may take up to 10 minutes, more on a slow connection as there is a lot to download.  Provisioning (not including downloading) takes about 2-3 minutes, and there is a further 1-2 minutes of maintenence after the server starts up while teamcity starts its systems.
