@@ -75,7 +75,7 @@ Vagrant.configure(2) do |config|
       unless File.exist?(backup_data_disk)
         vbox.customize ['createhd', '--filename', backup_data_disk,
                         '--variant', 'Fixed',
-                        '--size', backup_data_disk_size * 1024]
+                        '--size', server_data_disk_size * 1024]
       end
       vbox.memory = backup[:ram]
       vbox.customize ['storageattach', :id, '--storagectl', 'SATA Controller',
