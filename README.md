@@ -2,7 +2,7 @@
 
 This is a Vagrant setup for creating a TeamCity server and build agents. It uses a shell script for provisioning.
 
-Our teamcity server runs at http://support.montagu.dide.ic.ac.uk:8111
+Our teamcity server runs at http://teamcity.montagu.dide.ic.ac.uk:8111
 
 This was based off of [this repo](https://github.com/rodm/teamcity-vagrant) but has been totally rewritten follow the recommended installation approach for TeamCity 10.x
 
@@ -82,7 +82,7 @@ To test that the restore works, run
 
     $ vagrant up montagu-ci-backup
 
-which will open a new instance of TeamCity server with the most recently backed up (and synchronised) data.  It will be available at http://support.montagu.dide.ic.ac.uk:8112 (it will have no agents though as they register themselves with the main host).  As with the main server, it will take 1-2 minutes for the login page to work after provisioning is complete.
+which will open a new instance of TeamCity server with the most recently backed up (and synchronised) data.  It will be available at http://teamcity.montagu.dide.ic.ac.uk:8112 (it will have no agents though as they register themselves with the main host).  As with the main server, it will take 1-2 minutes for the login page to work after provisioning is complete.
 
 ## Logging into the machines
 
