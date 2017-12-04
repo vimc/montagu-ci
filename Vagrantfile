@@ -19,7 +19,8 @@ backup =
 # This is the thing that will significantly change size over time, so
 # let's pull it out into its own thing for now
 server_data_disk = 'server_data_disk.vdi'
-server_data_disk_size = 30 # in GB
+backup_data_disk = 'backup_data_disk.vdi'
+server_data_disk_size = 60 # in GB
 
 Vagrant.configure(2) do |config|
   # Common bits:
@@ -71,11 +72,22 @@ Vagrant.configure(2) do |config|
   config.vm.define backup[:hostname] do |backup_config|
     backup_config.vm.provider :virtualbox do |vbox|
       vbox.gui = false
+      unless File.exist?(backup_data_disk)
+        vbox.customize ['createhd', '--filename', backup_data_disk,
+                        '--variant', 'Fixed',
+                        '--size', server_data_disk_size * 1024]
+      end
       vbox.memory = backup[:ram]
+      vbox.customize ['storageattach', :id, '--storagectl', 'SATA Controller',
+                      '--port', 1, '--device', 0, '--type', 'hdd',
+                      '--medium', backup_data_disk]
     end
     backup_config.vm.hostname = backup[:hostname] + '.' + domain
     backup_config.vm.network :private_network, ip: backup[:ip]
     backup_config.vm.network "forwarded_port", guest: 8111, host: 8112
+    backup_config.vm.provision :shell do |shell|
+      shell.path = 'provision/setup-server-disk.sh'
+    end
     backup_config.vm.provision :shell do |shell|
       shell.path = 'provision/setup-server.sh'
     end
