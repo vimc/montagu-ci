@@ -148,7 +148,11 @@ Be aware that `vagrant destroy <machine-name>` Does not remove the disk, which i
 vboxmanage closemedium disk <uuid> --delete
 ```
 
-Using the **second** uuid reported by `vboxmanage list hdds`.
+Using the **second** uuid reported by `vboxmanage list hdds`.  Better is to do
+
+```
+vboxmanage closemedium disk disk/montagu-ci-backup.vdi --delete
+```
 
 The private ip of the server (192.168.80.10) is used the agent configuration and should be updated if the Vagrantfile is.  This will be needed when we test backup recovery.
 
