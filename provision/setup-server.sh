@@ -12,7 +12,7 @@ TEAMCITY_DB_PASS=teamcity
 TEAMCITY_USER=teamcity
 TEAMCITY_GROUP=teamcity
 
-TEAMCITY_BACKUP="/vagrant/restore/teamcity-restore.zip"
+TEAMCITY_BACKUP="/vagrant/restore/TeamCity_Backup.zip"
 
 # NOTE: The TEAMCITY_DIR variable _must_ end in TeamCity unless some
 # faffage is done because that's the top level name in the tgz.  It's
