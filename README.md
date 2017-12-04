@@ -74,7 +74,7 @@ From the host, as root, run the script `./scripts/write-cron-teamcity-backup-syn
 
 To restore the server into a *freshly created machine, during provisioning*, run
 
-    $ ln -s TeamCity_Backup.zip restore/montagu-ci-server
+    $ ln -s TeamCity_Backup.zip shared/restore/montagu-restore.zip
     $ vagrant up montagu-ci-server
     $ rm restore/montagu-ci-server
 

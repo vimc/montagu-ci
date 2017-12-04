@@ -9,7 +9,6 @@ if [ ! -f .ssh/config ]; then
 fi
 
 RESTORE_LATEST=TeamCity_Backup.zip
-RESTORE_TEST=montagu-ci-backup.zip
 RESTORE_DIR=shared/restore
 # relative from the restore directory
 BACKUP_DIR=/montagu/teamcity
@@ -20,12 +19,11 @@ rsync -av --rsh="ssh -F ${PWD}/.ssh/config" \
 
 LAST_BACKUP=$(ls $BACKUP_DIR | tail -n1)
 
-rm -f $RESTORE_DIR/$RESTORE_LATEST $RESTORE_DIR/$RESTORE_TEST
+rm -f $RESTORE_DIR/$RESTORE_LATEST
 
 if [ ! -z $LAST_BACKUP ]; then
     echo "Setting $LAST_BACKUP as current backup"
     cp $BACKUP_DIR/$LAST_BACKUP $RESTORE_DIR/$RESTORE_LATEST
-    ln -s $RESTORE_LATEST $RESTORE_DIR/$RESTORE_TEST
 else
     echo "No backup exists; not creating link"
 fi
