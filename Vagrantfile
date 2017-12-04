@@ -54,9 +54,6 @@ Vagrant.configure(2) do |config|
     server_config.vm.network :private_network, ip: server[:ip]
     server_config.vm.network "forwarded_port", guest: 8111, host: 8111
     server_config.vm.provision :shell do |shell|
-      shell.path = 'provision/setup-server-disk.sh'
-    end
-    server_config.vm.provision :shell do |shell|
       shell.path = 'provision/setup-server.sh'
     end
   end
@@ -86,9 +83,6 @@ Vagrant.configure(2) do |config|
     backup_config.vm.network :private_network, ip: backup[:ip]
     backup_config.vm.network "forwarded_port", guest: 8111, host: 8112
     backup_config.vm.provision :shell do |shell|
-      shell.path = 'provision/setup-server-disk.sh'
-    end
-    backup_config.vm.provision :shell do |shell|
       shell.path = 'provision/setup-server.sh'
     end
   end
@@ -108,9 +102,6 @@ Vagrant.configure(2) do |config|
       agent_config.vm.network :private_network, ip: agent[:ip]
       # This needs to come before the setup-docker because the latter
       # depends on the existance of a teamcity user.
-      agent_config.vm.provision :shell do |shell|
-        shell.path = 'provision/setup-disk.sh'
-      end
       agent_config.vm.provision :shell do |shell|
         shell.path = 'provision/setup-agent-users.sh'
       end
