@@ -22,6 +22,7 @@ Use the `"CI system"` component in [YouTrack](https://vimc.myjetbrains.com/youtr
 
 To create the TeamCity server VM and start the server, run:
 
+    $ vagrant plugin install vagrant-persistent-storage
     $ vagrant up montagu-ci-server
 
 **Note:** the first run may take up to 10 minutes, more on a slow connection as there is a lot to download.  Provisioning (not including downloading) takes about 2-3 minutes, and there is a further 1-2 minutes of maintenence after the server starts up while teamcity starts its systems.
@@ -141,7 +142,17 @@ Then start an agent.  It'll take a few minutes to start and will, a few minutes 
 
 The server has a separate "data" disk, following suggestions in the [teamcity documentation](https://confluence.jetbrains.com/display/TCD10/TeamCity+Data+Directory) to keep the build directory off the system disk.  The size of this disk can be configured in the Vagrantfile.
 
-Be aware that `vagrant destroy montagu-ci-server` will take out the second disk of that machine too.  This is probably desirable but might still be alarming.
+Be aware that `vagrant destroy <machine-name>` Does not remove the disk, which is stored in `disk/`.  That leads to problems like [this](https://github.com/kusnier/vagrant-persistent-storage/issues/69).  The solution is to do:
+
+```
+vboxmanage closemedium disk <uuid> --delete
+```
+
+Using the **second** uuid reported by `vboxmanage list hdds`.  Better is to do
+
+```
+vboxmanage closemedium disk disk/montagu-ci-backup.vdi --delete
+```
 
 The private ip of the server (192.168.80.10) is used the agent configuration and should be updated if the Vagrantfile is.  This will be needed when we test backup recovery.
 
