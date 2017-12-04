@@ -85,7 +85,7 @@ Vagrant.configure(2) do |config|
     backup_config.vm.hostname = backup[:hostname] + '.' + domain
     backup_config.vm.network :private_network, ip: backup[:ip]
     backup_config.vm.network "forwarded_port", guest: 8111, host: 8112
-    server_config.vm.provision :shell do |shell|
+    backup_config.vm.provision :shell do |shell|
       shell.path = 'provision/setup-server-disk.sh'
     end
     backup_config.vm.provision :shell do |shell|
