@@ -11,12 +11,5 @@ docker network prune -f
 # clean up any dangling data volumes
 docker volume prune -f
 
-# Then clean up all of our images - as they are all meant to be
-# transient.  This will cause the first build after cleanup (be it
-# nightly, weekly, whatever) to be a bit slower potentially but should
-# not be a huge problem because it's meant to be over a fast internal
-# network.
-IMAGES_DROP=$(docker images | grep ^docker.montagu.dide.ic.ac.uk | awk '{print $3}')
-if [[ ! -z $IMAGES_DROP ]]; then
-    docker rmi -f $IMAGES_DROP
-fi
+# clean up all images
+docker image prune -f -a
