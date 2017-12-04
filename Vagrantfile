@@ -28,9 +28,9 @@ Vagrant.configure(2) do |config|
 
   # Configure a second disk
   config.persistent_storage.enabled = true
-  config.mountname = "data"
-  config.filesystem = "ext4"
-  config.mountpoint = "/mnt/data"
+  config.persistent_storage.mountname = "data"
+  config.persistent_storage.filesystem = "ext4"
+  config.persistent_storage.mountpoint = "/mnt/data"
 
   # All nodes need Oracle Java 8 on them
   config.vm.provision :shell do |shell|
