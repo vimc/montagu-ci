@@ -85,6 +85,24 @@ To test that the restore works, run
 
 which will open a new instance of TeamCity server with the most recently backed up (and synchronised) data.  It will be available at http://teamcity.montagu.dide.ic.ac.uk:8112 (it will have no agents though as they register themselves with the main host).  As with the main server, it will take 1-2 minutes for the login page to work after provisioning is complete.
 
+## Recovery from backup
+
+```
+git clone https://github.com/vimc/montagu-ci.git montagu-ci
+mkdir -p montagu-ci/shared/restore
+cp vagrant/shared/TeamCity_Backup.zip montagu-ci/shared/restore
+cd montagu-ci
+vagrant up montagu-ci-server
+```
+
+then after confirming that the server has come up correctly, start the workers
+
+```
+vagrant up montagu-ci-agent-01 montagu-ci-agent-02 montagu-ci-agent-03
+```
+
+and log them into docker (as below)
+
 ## Logging into the machines
 
 Through a series of twisty passages:
