@@ -128,7 +128,29 @@ See [montagu-registry](https://github.com/vimc/montagu-registry) for details on 
 
 You must login to the docker registry to be able to push or pull.  The login lasts as long as the username/password are not changed (which is not frequent).  The general documentation is in the [montagu-registry](https://github.com/vimc/montagu-registry/tree/master#login) repository.
 
-For agents, this can be done by logging into each agent and running `montagu-docker-login`, which will prompt for your GitHub PAT.
+For the agents, this can be done by running (from `support.montagu`)
+
+```
+vagrant ssh -c 'sudo su teamcity montagu-docker-login' montagu-ci-agent-01
+vagrant ssh -c 'sudo su teamcity montagu-docker-login' montagu-ci-agent-02
+vagrant ssh -c 'sudo su teamcity montagu-docker-login' montagu-ci-agent-03
+```
+
+which will prompt for your GitHub PAT.
+
+## Upgrading teamcity
+
+1. Increase the `TEAMCITY_VERSION` number in [`provision/setup-server.sh`](provision/setup-server.sh)
+2. Destroy everything and then recreate the server (`vagrant destroy -f`, `./scripts/destroy-disks.sh`, `vagrant up montagu-ci-server`)
+3. After the machine comes up, do `vagrant ssh montagu-ci-server -c 'sudo grep "token:" /opt/TeamCity/logs/teamcity-server.log'` and copy the authentication token
+3. Go to http://teamcity.montagu.dide.ic.ac.uk:8111 and click the link "I'm a server administrator, show me the details"
+4. Paste the token in the box
+5. Click "Upgrade"
+6. Wait until TeamCity is back up and running (takes a couple of minutes)
+7. Bring up the agents (`vagrant up montagu-ci-agent-01 montagu-ci-agent-02 montagu-ci-agent-03` and then log in to the docker registry for each agent as above)
+8. Go to http://teamcity.montagu.dide.ic.ac.uk:8111/agents.html?tab=unauthorizedAgents and authorise the agents.  The page will note that "Agent authorization token does not match the stored one" but this is expected.
+
+If all goes well, the whole process should take about half an hour.
 
 ## VIMC notes
 
