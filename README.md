@@ -115,25 +115,6 @@ vagrant status
 vagrant ssh montagu-ci-agent-01
 ```
 
-(this bit is out of date but still contains some relevant information...)
-
-If you're not the person who set the machines up, `vagrant` commands are not going to work.  So add ssh public keys into [`files/keys`](files/keys) named with the username (e.g., `rich.pub` is the key for a user called `rich`).  During provisioning, we create a sudo-able user account for each user listed here.  Password login is disabled but after logging in you can sudo with the password [horsestaple](https://xkcd.com/936/).  See [VIMC-72](https://vimc.myjetbrains.com/youtrack/issue/VIMC-72) for something better.
-
-If the machines are rebuilt, then you will get the big warning about keys changing.
-
-You can only login after getting onto `support.montagu.dide.ic.ac.uk`; once on that machine you can possibly connect through with:
-
-```
-Host support.montagu support.montagu.dide.ic.ac.uk
-  User <montagu username>
-  ForwardAgent yes
-Host montagu-ci-server
-  User <montagu username>
-  ProxyCommand ssh -q support.montagu.dide.ic.ac.uk nc 192.168.80.10 22
-```
-
-The configuration for the agents is similar but the ips end in `.11`, `.12` and `.13`.
-
 ## docker registry
 
 There are two parts to this; one is getting the registry running on the CI host and the other is configuring systems to be able to pull and push from the registry.
