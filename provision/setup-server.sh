@@ -74,7 +74,7 @@ systemctl start mysql
 mysql -u root -p$MYSQL_PASSWORD -e 'show databases;'| grep teamcity > /dev/null
 if [ "$?" = "1" ]; then
     cat > /tmp/database-setup.sql <<EOF
-CREATE DATABASE $TEAMCITY_DB_NAME DEFAULT CHARACTER SET utf8;
+CREATE DATABASE $TEAMCITY_DB_NAME DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
 CREATE USER '$TEAMCITY_DB_USER'@'%' IDENTIFIED BY '$TEAMCITY_DB_PASS';
 GRANT ALL ON $TEAMCITY_DB_NAME.* TO '$TEAMCITY_DB_USER'@'%';
 EOF
