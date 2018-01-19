@@ -18,8 +18,7 @@ Use the `"CI system"` component in [YouTrack](https://vimc.myjetbrains.com/youtr
 
 2. Clone this repository.
 
-## Starting the TeamCity server
-
+## Creating the TeamCity server
 To create the TeamCity server VM and start the server, run:
 
     $ vagrant plugin install vagrant-persistent-storage
@@ -36,14 +35,13 @@ To create and start a TeamCity build agent, run `vagrant up` with one of the age
     $ vagrant up montagu-ci-agent-02
     $ vagrant up montagu-ci-agent-03
 
+## (Re)starting TeamCity server
 **Note**; the `montagu-ci-server` *must* come up and be enabled before starting agents.  This is because the agent needs to download its setup from the agent during provisioning, and register with the server during startup.  Practically this means that full restart will look like
 
-
+    $ sudo su vagrant
+    $ cd ~/montagu-ci
     $ vagrant up montagu-ci-server
-    # ... ensure that the server is up and you can log in; up to ~10 minutes
     $ vagrant up
-
-Each agent should take 1-2 minutes to provision; this will be much faster than the server because they just pull the files from the java cache and from the server itself.  As the number of dependencies grows, things could get slower though.  There will be a gap of up to a minute before the agent appears in the agents page.
 
 ## Accessing the TeamCity server
 
