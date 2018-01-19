@@ -35,13 +35,18 @@ To create and start a TeamCity build agent, run `vagrant up` with one of the age
     $ vagrant up montagu-ci-agent-02
     $ vagrant up montagu-ci-agent-03
 
-## (Re)starting TeamCity server
-**Note**; the `montagu-ci-server` *must* come up and be enabled before starting agents.  This is because the agent needs to download its setup from the agent during provisioning, and register with the server during startup.  Practically this means that full restart will look like
+**Note**; the `montagu-ci-server` *must* come up and be enabled before starting agents.  This is because the agent needs to download its setup from the agent during provisioning, and register with the server during startup. 
 
-    $ sudo su vagrant
-    $ cd ~/montagu-ci
-    $ vagrant up montagu-ci-server
-    $ vagrant up
+## (Re)starting TeamCity
+    sudo su vagrant
+    cd ~/montagu-ci
+    vagrant up montagu-ci-server
+    vagrant up
+    
+## Stopping TeamCity
+    sudo su vagrant
+    cd ~/montagu-ci
+    vagrant halt
 
 ## Accessing the TeamCity server
 
