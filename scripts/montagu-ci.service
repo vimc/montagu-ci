@@ -1,0 +1,11 @@
+[Unit]
+Description=Montagu continuous integration VMs
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+WorkingDirectory=__PATH__
+User=__USER__
+ExecStart=__PATH__/scripts/start.sh
+Type=oneshot
