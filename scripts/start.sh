@@ -1,2 +1,5 @@
 #!/usr/bin/env bash
-vagrant up montagu-ci-server && vagrant up
+set -e
+vagrant plugin install vagrant-persistent-storage
+vagrant up montagu-ci-server
+vagrant up
