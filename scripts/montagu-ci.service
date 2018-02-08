@@ -1,5 +1,6 @@
 [Unit]
 Description=Montagu continuous integration VMs
+Wants=network-online.target
 
 [Install]
 WantedBy=multi-user.target

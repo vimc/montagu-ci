@@ -16,3 +16,4 @@ EOF
 set +x
 echo "Montagu continuous integration should now be running and accessible"
 echo "at port 8111, and should automatically resume after a system boot."
+echo "The service is running as $user."
