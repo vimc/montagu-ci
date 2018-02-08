@@ -7,3 +7,4 @@ if [[ -z $(vagrant box list | grep bento/ubuntu-16.04) ]]; then
 fi
 vagrant up montagu-ci-server
 vagrant up
+vagrant status
