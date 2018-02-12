@@ -56,6 +56,11 @@ To stop:
 
     sudo systemctl stop montagu-ci
 
+To view logs:
+
+    systemctl status montagu-ci     # Gives short status
+    journalctl --unit montagu-ci    # Gives full log
+
 ## Accessing the TeamCity server
 
 Once the server it started, it can be accessed at http://teamcity.montagu.dide.ic.ac.uk (which is forwarded from the server VM).
