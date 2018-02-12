@@ -2,7 +2,7 @@
 set -ex
 here=$(dirname $(dirname $(realpath $0)))
 target=/etc/systemd/system/montagu-ci.service
-read -p "What user should the service run as? " user
+read -p "What user should vagrant run as? " user
 
 set -ex
 cp $here/scripts/montagu-ci.service $target
