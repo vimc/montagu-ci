@@ -42,6 +42,11 @@ we had to ssh in, become root, and run `/etc/init.d/teamcity-server start`.
 agents.  This is because the agent needs to download its setup from the agent 
 during provisioning, and register with the server during startup. 
 
+## Remove the CI service
+Run (as root):
+
+    $ ./scripts/remove-start-on-boot.sh
+
 ## Managing TeamCity service
 To start:
 
