@@ -1,0 +1,15 @@
+[Unit]
+Description=Montagu continuous integration VMs
+Wants=network-online.target
+After=network-online.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+WorkingDirectory=__PATH__
+User=__USER__
+ExecStart=__PATH__/scripts/start.sh
+ExecStop=vagrant halt
+Type=oneshot
+RemainAfterExit=yes

@@ -18,35 +18,48 @@ Use the `"CI system"` component in [YouTrack](https://vimc.myjetbrains.com/youtr
 
 2. Clone this repository.
 
-## Creating the TeamCity server
-To create the TeamCity server VM and start the server, run:
+## Creating and starting the CI service
+Run (as root):
 
-    $ vagrant plugin install vagrant-persistent-storage
-    $ vagrant up montagu-ci-server
+    $ ./scripts/start-on-boot.sh
 
-**Note:** the first run may take up to 10 minutes, more on a slow connection as there is a lot to download.  Provisioning (not including downloading) takes about 2-3 minutes, and there is a further 1-2 minutes of maintenence after the server starts up while teamcity starts its systems.
+This will create a new systemd service and start it. TeamCity will automatically
+resume on host boot.
+
+To just run TeamCity without installing it as a service, run:
+
+    $ ./scripts/start.sh
+
+**Note:** the first run may take up to 10 minutes, more on a slow connection as 
+there is a lot to download.  Provisioning (not including downloading) takes 
+about 2-3 minutes, and there is a further 1-2 minutes of maintenence after the 
+server starts up while teamcity starts its systems.
 
 The server should start automatically. It didn't when we tried on 25/10/17, and
 we had to ssh in, become root, and run `/etc/init.d/teamcity-server start`.
 
-To create and start a TeamCity build agent, run `vagrant up` with one of the agent names;
+**Note**; the `montagu-ci-server` *must* come up and be enabled before starting 
+agents.  This is because the agent needs to download its setup from the agent 
+during provisioning, and register with the server during startup. 
 
-    $ vagrant up montagu-ci-agent-01
-    $ vagrant up montagu-ci-agent-02
-    $ vagrant up montagu-ci-agent-03
+## Remove the CI service
+Run (as root):
 
-**Note**; the `montagu-ci-server` *must* come up and be enabled before starting agents.  This is because the agent needs to download its setup from the agent during provisioning, and register with the server during startup. 
+    $ ./scripts/remove-start-on-boot.sh
 
-## (Re)starting TeamCity
-    sudo su vagrant
-    cd ~/montagu-ci
-    vagrant up montagu-ci-server
-    vagrant up
-    
-## Stopping TeamCity
-    sudo su vagrant
-    cd ~/montagu-ci
-    vagrant halt
+## Managing TeamCity service
+To start:
+
+    sudo systemctl start montagu-ci
+
+To stop:
+
+    sudo systemctl stop montagu-ci
+
+To view logs:
+
+    systemctl status montagu-ci     # Gives short status
+    journalctl --unit montagu-ci    # Gives full log
 
 ## Accessing the TeamCity server
 
