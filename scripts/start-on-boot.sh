@@ -9,9 +9,12 @@ cp $here/scripts/montagu-ci.service $target
 sed -i "s:__PATH__:$here:g" $target
 sed -i "s:__USER__:$user:g" $target
 systemctl enable montagu-ci
-systemctl start montagu-ci
 
 set +x
-echo "Montagu continuous integration should now be running and accessible"
-echo "at port 8111, and should automatically resume after a system boot."
-echo "The service is running as $user."
+echo ""
+echo "Montagu continuous integration is installed as a service as user $user" 
+echo "and will automatically resume after a system boot. To start the VMs now," 
+echo "run:"
+echo ""
+echo "systemctl start montagu-ci"
+echo ""
