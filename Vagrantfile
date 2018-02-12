@@ -67,7 +67,7 @@ Vagrant.configure(2) do |config|
   #     same host without conflict.
   #
   # We'll deal with filling the backup during setup-server.sh
-  config.vm.define backup[:hostname] do |backup_config|
+  config.vm.define backup[:hostname], autostart: false do |backup_config|
     backup_config.persistent_storage.size = server_data_disk_size * 1024
     backup_data_disk = "disk/#{backup[:hostname]}.vdi"
 
