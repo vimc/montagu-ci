@@ -146,12 +146,12 @@ You must login to the docker registry to be able to push or pull.  The login las
 For the agents, this can be done by running (from `support.montagu`)
 
 ```
-vagrant ssh -c 'sudo su teamcity montagu-docker-login' montagu-ci-agent-01
-vagrant ssh -c 'sudo su teamcity montagu-docker-login' montagu-ci-agent-02
-vagrant ssh -c 'sudo su teamcity montagu-docker-login' montagu-ci-agent-03
+vagrant ssh -c 'sudo su teamcity montagu-auth' montagu-ci-agent-01
+vagrant ssh -c 'sudo su teamcity montagu-auth' montagu-ci-agent-02
+vagrant ssh -c 'sudo su teamcity montagu-auth' montagu-ci-agent-03
 ```
 
-which will prompt for your GitHub PAT.
+which will prompt for your GitHub PAT.  This will also configure ssh keys for the agent, using [vimc-robot](https://github.com/orgs/vimc/people/vimc-robot).
 
 ## Upgrading teamcity
 
