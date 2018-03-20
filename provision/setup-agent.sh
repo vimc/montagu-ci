@@ -53,4 +53,4 @@ else
     rm ${VAULT_ZIP}
 fi
 
-cp /vagrant/files/agent/montagu-docker-login /usr/bin/
+cp /vagrant/files/agent/montagu-auth /usr/bin/
