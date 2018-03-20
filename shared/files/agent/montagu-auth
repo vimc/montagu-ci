@@ -22,5 +22,6 @@ echo $REGISTRY_PASSWORD | \
     docker login -u $REGISTRY_USER --password-stdin $REGISTRY_URL
 
 mkdir -p ~/.ssh
-vault read -field=value secret/vimc-robot/id_rsa > ~/.ssh/id_rsa
 vault read -field=value secret/vimc-robot/id_rsa.pub > ~/.ssh/id_rsa.pub
+vault read -field=value secret/vimc-robot/id_rsa > ~/.ssh/id_rsa
+chmod 600 ~/.ssh/id_rsa
