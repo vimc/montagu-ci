@@ -1,11 +1,19 @@
 #!/usr/bin/env bash
 
+set -e
+
+if [ "$EUID" -ne 0 ]; then
+    echo "Please run as root"
+    exit 1
+fi
+
 # TODO: This might be better to avoid and prefer a ssh key backup?  I
 # already have regular users set up.
 if [ ! -f .ssh/config ]; then
     echo "Setting up ssh settings"
     mkdir -p .ssh
-    vagrant ssh-config montagu-ci-server > .ssh/config
+    sudo -EH -u vagrant vagrant ssh-config montagu-ci-server > .ssh/config
+    sudo chown -R vagrant.vagrant .ssh
 fi
 
 RESTORE_LATEST=TeamCity_Backup.zip
