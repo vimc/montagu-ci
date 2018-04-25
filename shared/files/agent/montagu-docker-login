@@ -11,6 +11,7 @@ vault auth -method=github > /dev/null
 
 REGISTRY_URL=docker.montagu.dide.ic.ac.uk:5000
 REGISTRY_USER=vimc
+HUB_USER=vimc-robot
 REGISTRY_PASSWORD=$(vault read -field=password /secret/registry/${REGISTRY_USER})
 
 if [ -z $REGISTRY_PASSWORD ]; then
@@ -22,4 +23,4 @@ echo $REGISTRY_PASSWORD | \
     docker login -u $REGISTRY_USER --password-stdin $REGISTRY_URL
 
 echo $REGISTRY_PASSWORD | \
-    docker login -u $REGISTRY_USER --password-stdin
+    docker login -u $HUB_USER --password-stdin
