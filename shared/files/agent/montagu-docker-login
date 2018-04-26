@@ -11,7 +11,7 @@ vault auth -method=github > /dev/null
 
 REGISTRY_URL=docker.montagu.dide.ic.ac.uk:5000
 REGISTRY_USER=vimc
-HUB_USER=vimc-robot
+HUB_USER=vimcrobot
 REGISTRY_PASSWORD=$(vault read -field=password /secret/registry/${REGISTRY_USER})
 
 if [ -z $REGISTRY_PASSWORD ]; then
