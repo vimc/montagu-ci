@@ -14,7 +14,7 @@ REGISTRY_USER=vimc
 REGISTRY_PASSWORD=$(vault read -field=password /secret/registry/${REGISTRY_USER})
 
 HUB_USER=vimcrobot
-HUB_PASSWORD=$(vault read -field=password /secret/${HUB_USER$)
+HUB_PASSWORD=$(vault read -field=password /secret/${HUB_USER)
 if [ -z $REGISTRY_PASSWORD ]; then
     echo "Failed to fetch registry password from vault"
     exit 1
