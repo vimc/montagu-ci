@@ -13,13 +13,23 @@ REGISTRY_URL=docker.montagu.dide.ic.ac.uk:5000
 REGISTRY_USER=vimc
 REGISTRY_PASSWORD=$(vault read -field=password /secret/registry/${REGISTRY_USER})
 
+HUB_USER=$(vault read -field=username /secret/vimc-robot/dockerhub)
+HUB_PASSWORD=$(vault read -field=password /secret/vimc-robot/dockerhub)
+
 if [ -z $REGISTRY_PASSWORD ]; then
-    echo "Failed to fetch password from vault"
+    echo "Failed to fetch registry password from vault"
+    exit 1
+fi
+
+if [ -z $HUB_PASSWORD ]; then
+    echo "Failed to fetch hub password from vault"
     exit 1
 fi
 
 echo $REGISTRY_PASSWORD | \
     docker login -u $REGISTRY_USER --password-stdin $REGISTRY_URL
+echo $HUB_PASSWORD | \
+    docker login -u $HUB_USER --password-stdin
 
 mkdir -p ~/.ssh
 vault read -field=value secret/vimc-robot/id_rsa.pub > ~/.ssh/id_rsa.pub
