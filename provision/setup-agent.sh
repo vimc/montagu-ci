@@ -45,7 +45,7 @@ fi
 if which -a vault > /dev/null; then
     echo "vault is already installed"
 else
-    VAULT_VERSION=0.8.3
+    VAULT_VERSION=0.10.4
     VAULT_ZIP=vault_${VAULT_VERSION}_linux_amd64.zip
     wget https://releases.hashicorp.com/vault/${VAULT_VERSION}/${VAULT_ZIP}
     unzip ${VAULT_ZIP}
