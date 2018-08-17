@@ -43,3 +43,4 @@ fi
 # NOTE: this is a fake email address for our robot account:
 git config --global user.email "rich.fitzjohn+vimc@gmail.com"
 git config --global user.name "vimc-robot"
+git config --global push.default simple
