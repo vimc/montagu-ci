@@ -18,7 +18,7 @@ backup =
 
 # This is the thing that will significantly change size over time, so
 # let's pull it out into its own thing for now
-server_data_disk_size = 60 # in GB
+server_data_disk_size = 80 # in GB
 agent_data_disk_size = 40 # in GB
 
 Vagrant.configure(2) do |config|
