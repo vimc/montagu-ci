@@ -21,7 +21,7 @@ TEAMCITY_BACKUP="/vagrant/restore/TeamCity_Backup.zip"
 TEAMCITY_DIR=/opt/TeamCity
 TEAMCITY_DATA_DIR=${TEAMCITY_DIR}/data
 
-TEAMCITY_VERSION=2017.2
+TEAMCITY_VERSION=2018.1
 TEAMCITY_TGZ=TeamCity-${TEAMCITY_VERSION}.tar.gz
 TEAMCITY_URL=http://download.jetbrains.com/teamcity/$TEAMCITY_TGZ
 
