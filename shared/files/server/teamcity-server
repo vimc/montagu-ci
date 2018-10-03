@@ -18,8 +18,7 @@ umask 002
 
 case "$1" in
     start)
-        export TEAMCITY_SERVER_MEM_OPTS="-Xmx750m"
-        su - ${TEAMCITY_USER} -c "${SERVER_SCRIPT} $1 > ${SERVER_LOG} 2>&1"
+        su - ${TEAMCITY_USER} -c "TEAMCITY_SERVER_MEM_OPTS=-Xmx750m ${SERVER_SCRIPT} $1 > ${SERVER_LOG} 2>&1"
         RETVAL=$?
         ;;
     stop)
