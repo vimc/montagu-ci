@@ -9,5 +9,5 @@ fi
 
 for f in `ls disk/*.vdi`; do
     echo "Removing $f"
-    vboxmanage closemedium disk disk/$f --delete
+    vboxmanage closemedium disk $f --delete
 done
