@@ -7,11 +7,14 @@ TEAMCITY_DIR={{TEAMCITY_DIR}}
 TEAMCITY_DATA_DIR={{TEAMCITY_DATA_DIR}}
 TEAMCITY_USER={{TEAMCITY_USER}}
 TEAMCITY_GROUP={{TEAMCITY_GROUP}}
+TEAMCITY_VAGRANT_DIR={{TEAMCITY_VAGRANT_DIR}}
 
 # I don't know why JAVA HOME is not coming through appropriately but it's
 # something to think about
 export JAVA_HOME=/usr/lib/jvm/java-8-oracle
-$TEAMCITY_DIR/bin/maintainDB.sh backup -C -D -L -P -U -A $TEAMCITY_DATA_DIR
-chown -R $TEAMCITY_USER:$TEAMCITY_GROUP $TEAMCITY_DATA_DIR/backup
-chmod 755 $TEAMCITY_DATA_DIR/backup
-chmod 444 $TEAMCITY_DATA_DIR/backup/*.zip
+
+$TEAMCITY_DIR/bin/maintainDB.sh backup --all --data-dir $TEAMCITY_DATA_DIR --backup-file TeamCity_Backup
+
+cp $TEAMCITY_DATA_DIR/backup/. $TEAMCITY_VAGRANT_DIR/restore -r
+
+rm $TEAMCITY_DATA_DIR/backup -r
