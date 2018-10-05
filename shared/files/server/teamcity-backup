@@ -16,3 +16,6 @@ export JAVA_HOME=/usr/lib/jvm/java-8-oracle
 $TEAMCITY_DIR/bin/maintainDB.sh backup --all --data-dir $TEAMCITY_DATA_DIR --backup-file TeamCity_Backup
 
 cp $TEAMCITY_DATA_DIR/backup/TeamCity_Backup.zip $TEAMCITY_VAGRANT_DIR/restore/TeamCity_Backup.zip
+
+# Once copied over to the restore path we delete the original backup
+rm $TEAMCITY_DATA_DIR/backup/TeamCity_Backup.zip
