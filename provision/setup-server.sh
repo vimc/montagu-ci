@@ -44,8 +44,6 @@ fi
 # On the backup machine, this does not exist;
 mkdir -p /mnt/data
 
-mkdir -p $TEAMCITY_VAGRANT_DIR/backup
-
 # Install various packages required to run TeamCity
 apt-get update
 

@@ -87,8 +87,8 @@ which of course needs to be done for all the running machines
 
 ## Backups
 
-The CI server will backup every day into `/vagrant/restore` which corresponds to
- `/home/vagrant/montagu-ci/shared/restore` on the host machine
+The CI server will backup every day into `/vagrant/restore/TeamCity_Backup.zip` which corresponds to
+ `/home/vagrant/montagu-ci/shared/restore/TeamCity_Backup.zip` on the host machine
 
 To restore the server into a *freshly created machine, during provisioning*, run
 
