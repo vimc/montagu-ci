@@ -9,13 +9,22 @@ TEAMCITY_USER={{TEAMCITY_USER}}
 TEAMCITY_GROUP={{TEAMCITY_GROUP}}
 TEAMCITY_VAGRANT_DIR={{TEAMCITY_VAGRANT_DIR}}
 
+RESTORE_LATEST=TeamCity_Backup.zip
+BACKUP_DIR=$TEAMCITY_DATA_DIR/backup
+RESTORE_DIR=$TEAMCITY_VAGRANT_DIR/restore
+
 # I don't know why JAVA HOME is not coming through appropriately but it's
 # something to think about
 export JAVA_HOME=/usr/lib/jvm/java-8-oracle
 
-$TEAMCITY_DIR/bin/maintainDB.sh backup --all --data-dir $TEAMCITY_DATA_DIR --backup-file TeamCity_Backup
+$TEAMCITY_DIR/bin/maintainDB.sh backup --all --data-dir $TEAMCITY_DATA_DIR
 
-cp $TEAMCITY_DATA_DIR/backup/TeamCity_Backup.zip $TEAMCITY_VAGRANT_DIR/restore/TeamCity_Backup.zip
+# Empty the restore path of the out-dated backup file
+rm $RESTORE_DIR/$RESTORE_LATEST
 
-# Once copied over to the restore path we delete the original backup
-rm $TEAMCITY_DATA_DIR/backup/TeamCity_Backup.zip
+LAST_BACKUP=$(ls $BACKUP_DIR | tail -n1)
+
+cp $BACKUP_DIR$LAST_BACKUP $RESTORE_DIR/$RESTORE_LATEST
+
+# Thin backups to only keep most recent
+ls -t | awk 'NR>1' | xargs rm -f
