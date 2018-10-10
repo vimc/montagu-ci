@@ -20,11 +20,11 @@ export JAVA_HOME=/usr/lib/jvm/java-8-oracle
 $TEAMCITY_DIR/bin/maintainDB.sh backup --all --data-dir $TEAMCITY_DATA_DIR
 
 # Empty the restore path of the out-dated backup file
-rm $RESTORE_DIR/$RESTORE_LATEST
+rm -f $RESTORE_DIR/$RESTORE_LATEST
 
 LAST_BACKUP=$(ls $BACKUP_DIR | tail -n1)
 
-cp $BACKUP_DIR$LAST_BACKUP $RESTORE_DIR/$RESTORE_LATEST
+cp $BACKUP_DIR/$LAST_BACKUP $RESTORE_DIR/$RESTORE_LATEST
 
-# Thin backups to only keep most recent
-ls -t | awk 'NR>1' | xargs rm -f
+# Now that we have the backup in place on the host machine, we can clear out this folder
+rm -rf $TEAMCITY_DATA_DIR/backup
