@@ -20,6 +20,7 @@ TEAMCITY_BACKUP="/vagrant/restore/TeamCity_Backup.zip"
 # gain.
 TEAMCITY_DIR=/opt/TeamCity
 TEAMCITY_DATA_DIR=${TEAMCITY_DIR}/data
+TEAMCITY_VAGRANT_DIR="/vagrant"
 
 TEAMCITY_VERSION=2018.1
 TEAMCITY_TGZ=TeamCity-${TEAMCITY_VERSION}.tar.gz
@@ -163,7 +164,6 @@ update-rc.d teamcity-server defaults
 
 /etc/init.d/teamcity-server start
 
-## TODO: add a weekly or monthly file to thin/delete backups
 set +x
 . /vagrant/bin/mo
 mo /vagrant/files/server/teamcity-backup > \

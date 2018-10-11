@@ -87,9 +87,8 @@ which of course needs to be done for all the running machines
 
 ## Backups
 
-The CI server will backup every day into `/opt/TeamCity/data/backup`
-
-From the host, as root, run the script `./scripts/write-cron-teamcity-backup-sync.sh` to write out a cron job that will organise syncing backups every night.  This will create backups in `/montagu/teamcity` as well as creating a link to the most recent backup in `shared/restore`
+The CI server will backup every day into `/vagrant/restore/TeamCity_Backup.zip` which corresponds to
+ `/home/vagrant/montagu-ci/shared/restore/TeamCity_Backup.zip` on the host machine
 
 To restore the server into a *freshly created machine, during provisioning*, run
 
@@ -99,7 +98,7 @@ To test that the restore works, run
 
     $ vagrant up montagu-ci-backup
 
-which will open a new instance of TeamCity server with the most recently backed up (and synchronised) data.  It will be available at http://teamcity.montagu.dide.ic.ac.uk:8112 (it will have no agents though as they register themselves with the main host).  As with the main server, it will take 1-2 minutes for the login page to work after provisioning is complete.
+which will open a new instance of TeamCity server with the most recently backed up data.  It will be available at http://teamcity.montagu.dide.ic.ac.uk:8112 (it will have no agents though as they register themselves with the main host).  As with the main server, it will take 1-2 minutes for the login page to work after provisioning is complete.
 
 ## Recovery from backup
 
