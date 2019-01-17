@@ -34,6 +34,12 @@ mo /vagrant/files/agent/buildAgent.dist.properties > \
    $TEAMCITY_DIR/conf/buildAgent.properties
 set -x
 
+# Ensure the agent can ssh to support to deploy latest code - assume known_hosts doesn't yet exist
+SUPPORTHOST=$(ssh-keyscan support.montagu.dide.ic.ac.uk)
+KNOWN_HOSTS_FILE=$TEAMCITY_DIR/.ssh/known_hosts
+mkdir $TEAMCITY_DIR/.ssh
+echo $SUPPORTHOST > $KNOWN_HOSTS_FILE
+
 chown -R $TEAMCITY_USER:$TEAMCITY_GROUP $TEAMCITY_DIR
 
 if [ ! -f /etc/init.d/teamcity-agent ]; then
@@ -54,15 +60,3 @@ else
 fi
 
 cp /vagrant/files/agent/montagu-auth /usr/bin/
-
-# Ensure the agent can ssh to support to deploy latest code - don't assume known_hosts doesn't exist
-SUPPORTHOST=$(ssh-keyscan support.montagu.dide.ic.ac.uk)
-KNOWN_HOSTS_FILE=$TEAMCITY_DIR/.ssh/known_hosts
-if [ ! -f  $KNOWN_HOSTS_FILE ]; then
-    echo "Writing support in new known_hosts"
-    mkdir $TEAMCITY_DIR/.ssh
-    echo $SUPPORTHOST > $KNOWN_HOSTS_FILE
-else
-    echo "Checking support exists in known_hosts"
-    grep -q -F "$SUPPORTHOST" $KNOWN_HOSTS_FILE || echo $SUPPORTHOST >> $KNOWN_HOSTS_FILE
-fi
