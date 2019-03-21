@@ -194,6 +194,24 @@ The private ip of the server (192.168.80.10) is used the agent configuration and
 
 Slack notifications need an incoming webhook; go [here](https://my.slack.com/services/new/incoming-webhook/) to create one or go [here](https://vimc.slack.com/services/B4LR1L5MH) to get the current URL (starts with `https://hooks.slack.com/services/`)
 
+## GitHub Integration
+
+Official documenation is [here](https://confluence.jetbrains.com/display/TCD18/Commit+Status+Publisher), and the process is surprisingly easy.
+
+1. Go to the build page that you want to add a status checker for
+2. Click "Edit Configuration Settings"
+3. On the left panel, click "Build Features"
+4. Click the "Add build feature" button
+5. Select "Commit status publisher"
+6. Leave "VCS Root" as it is
+7. For "Publisher", select "GitHub"
+8. Get the token from the vault at `/secret/vimc-robot/teamcity-token` and paste that in as the access token (this uses the `vimc-robot` account)
+9. Press the "Test connection" button
+10. If you get "Connection failed! there is no push access to the repository..." then go to the settings page for the repo (e.g. `https://github.com/vimc/<repo>/settings/collaboration` and add the `robots` team with **Write** access
+11. Press "Save"
+
+From now on, new commits and pull requests will have TeamCity status shown!
+
 ## Adapting this for other projects
 
 There's relatively little in here that is specific to our needs.  It's more complicated than [this barebones](https://github.com/rodm/teamcity-vagrant) setup because it's aimed at supporting:
