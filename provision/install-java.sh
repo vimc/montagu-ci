@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -x
+set -ex
 JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
 if [ -d $JAVA_HOME ]; then
