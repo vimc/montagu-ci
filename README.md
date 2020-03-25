@@ -216,7 +216,6 @@ From now on, new commits and pull requests will have TeamCity status shown!
 
 1. Remove the disconnected agent - via teamcity site go to disconnected list of agents and remove the agent
 1. On the command line ssh to montagu as vagrant user `ssh vagrant@support.montagu.dide.ic.ac.uk` and destroy the removed agent `vagrant destroy <agent_name>`
-1. Delete the disk for the agent `vboxmanage closemedium disk disk/<agent_name>.vdi --delete
 1. Bring the agent back up `vagrant up <agent_name>`
 1. Configure the client to use registry `vagrant ssh -c 'sudo su teamcity montagu-auth' <agent_name>`
 1. Authorise the agent on teamcity website 
