@@ -8,6 +8,7 @@ else
     echo "installing docker"
     # The big docker directory is /var/lib/docker - we'll move that
     # out onto the external disk:
+    rm -rf /mnt/data/docker/var-lib-docker
     mkdir -p /mnt/data/docker/var-lib-docker
     ln -s /mnt/data/docker/var-lib-docker /var/lib/docker
 
